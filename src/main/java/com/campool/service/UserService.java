@@ -15,12 +15,16 @@ public class UserService {
     private final UserMapper userMapper;
 
     public void add(User user) {
-        if (userMapper.findById(user.getId()) == null) {
+        if (isDuplicate(user.getId())) {
+            throw new RuntimeException("중복된 아이디가 존재합니다.");
+        } else {
             user.setPassword(SHA256Utility.encrypt(user.getPassword()));
             userMapper.insert(user);
-        } else {
-            throw new RuntimeException("중복된 아이디가 존재합니다.");
         }
+    }
+
+    public boolean isDuplicate(String id) {
+        return userMapper.findById(id) != null;
     }
 
 }
