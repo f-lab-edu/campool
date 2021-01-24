@@ -31,7 +31,7 @@ public class User {
     private String email;
 
     @NotBlank
-    @Pattern(regexp = "[0-9]{10,11}")
+    @Pattern(regexp = "[0-9]{10,11}", message = "- 을 제외한 숫자 10자리 또는 11자리를 입력해주세요.")
     private String telephone;
 
 }
