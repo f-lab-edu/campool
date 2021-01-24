@@ -3,17 +3,17 @@ package com.campool.controller;
 import com.campool.model.User;
 import com.campool.service.UserService;
 import javax.validation.Valid;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequiredArgsConstructor
 @RestController
 public class UserController {
 
+    @NonNull
     private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @PostMapping("/users")
     public void signUpUser(@Valid User user) {
