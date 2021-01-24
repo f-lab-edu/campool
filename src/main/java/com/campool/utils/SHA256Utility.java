@@ -22,7 +22,7 @@ public class SHA256Utility {
             }
             return sb.toString();
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
