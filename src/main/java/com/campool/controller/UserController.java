@@ -1,6 +1,6 @@
 package com.campool.controller;
 
-import com.campool.model.User;
+import com.campool.model.UserSignUp;
 import com.campool.service.UserService;
 import javax.validation.Valid;
 import lombok.NonNull;
@@ -16,8 +16,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users")
-    public void signUpUser(@Valid User user) {
-        userService.add(user);
+    public void signUpUser(@Valid UserSignUp userSignUp) {
+        userService.add(userSignUp);
     }
 
 }

@@ -1,16 +1,14 @@
-package com.campool.utils;
+package com.campool.encrypt;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import org.springframework.stereotype.Component;
 
-public class SHA256Utility {
+@Component
+public class SHA256Encryptor implements Encryptor {
 
-    // 인스턴스화 방지
-    private SHA256Utility() {
-        // 내부에서 사용 시 에러를 통해 방지
-        throw new AssertionError();
-    }
-
-    public static String encrypt(String msg) {
+    @Override
+    public String encrypt(String msg) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] passBytes = msg.getBytes();
@@ -21,8 +19,8 @@ public class SHA256Utility {
                 sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
             }
             return sb.toString();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("지원하지 않는 암호화 방식입니다.", e);
         }
     }
 
