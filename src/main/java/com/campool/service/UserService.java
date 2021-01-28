@@ -2,9 +2,12 @@ package com.campool.service;
 
 import com.campool.encrypt.Encryptor;
 import com.campool.mapper.UserMapper;
+import com.campool.model.UserLogin;
 import com.campool.model.UserSignUp;
+import javax.servlet.http.HttpSession;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,16 @@ public class UserService {
 
     public boolean isDuplicate(String id) {
         return userMapper.findById(id) != null;
+    }
+
+    public void login(UserLogin userLogin, HttpSession session) {
+        UserSignUp userSignUp = userMapper
+                .findByIdAndPassword(userLogin.getId(), encryptor.encrypt(userLogin.getPassword()));
+        if (userSignUp == null) {
+            throw new RuntimeException(new NotFoundException("로그인에 실패했습니다."));
+        } else {
+            session.setAttribute("userSignUp", userSignUp);
+        }
     }
 
 }

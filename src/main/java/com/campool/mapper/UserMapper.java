@@ -14,4 +14,7 @@ public interface UserMapper {
     @Select("SELECT * FROM USER WHERE id = #{id}")
     UserSignUp findById(String id);
 
+    @Select("SELECT * FROM USER WHERE id = #{id} AND password = #{password}")
+    UserSignUp findByIdAndPassword(String id, String password);
+
 }
