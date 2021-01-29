@@ -11,10 +11,10 @@ public interface UserMapper {
     @Insert("INSERT INTO USER(id, password, name, email, telephone) VALUES(#{id}, #{password}, #{name}, #{email}, #{telephone})")
     void insert(UserSignUp userSignUp);
 
-    @Select("SELECT * FROM USER WHERE id = #{id}")
+    @Select("SELECT ID, PASSWORD, NAME, EMAIL, TELEPHONE FROM USER WHERE id = #{id}")
     UserSignUp findById(String id);
 
-    @Select("SELECT * FROM USER WHERE id = #{id} AND password = #{password}")
+    @Select("SELECT ID, PASSWORD, NAME, EMAIL, TELEPHONE FROM USER WHERE id = #{id} AND password = #{password}")
     UserSignUp findByIdAndPassword(String id, String password);
 
 }
