@@ -1,5 +1,6 @@
 package com.campool.service;
 
+import com.campool.auth.SessionAuth;
 import com.campool.encrypt.Encryptor;
 import com.campool.mapper.UserMapper;
 import com.campool.model.UserLogin;
@@ -36,11 +37,15 @@ public class UserService {
     public void login(UserLogin userLogin, HttpSession session) {
         UserSignUp userSignUp = userMapper
                 .findByIdAndPassword(userLogin.getId(), encryptor.encrypt(userLogin.getPassword()));
-        if (userSignUp == null) {
-            throw new RuntimeException(new NotFoundException("로그인에 실패했습니다."));
+        if (isAuthenticatedUser(userSignUp)) {
+            SessionAuth.setAuthenticatedUser(userSignUp, session);
         } else {
-            session.setAttribute("userSignUp", userSignUp);
+            throw new RuntimeException(new NotFoundException("로그인에 실패했습니다."));
         }
+    }
+
+    public boolean isAuthenticatedUser(UserSignUp userSignUp) {
+        return userSignUp != null;
     }
 
 }
