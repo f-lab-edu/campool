@@ -2,13 +2,13 @@ package com.campool.service;
 
 import com.campool.auth.SessionAuth;
 import com.campool.encrypt.Encryptor;
+import com.campool.exception.NoSuchUserException;
 import com.campool.mapper.UserMapper;
 import com.campool.model.UserLogin;
 import com.campool.model.UserSignUp;
 import javax.servlet.http.HttpSession;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +40,7 @@ public class UserService {
         if (isAuthenticatedUser(userSignUp)) {
             SessionAuth.setAuthenticatedUser(userSignUp, session);
         } else {
-            throw new RuntimeException(new NotFoundException("로그인에 실패했습니다."));
+            throw new NoSuchUserException("로그인에 실패했습니다.");
         }
     }
 
