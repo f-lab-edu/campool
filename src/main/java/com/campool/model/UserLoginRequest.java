@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @RequiredArgsConstructor
 @ToString
-public class UserLogin {
+public class UserLoginRequest {
 
     @NotBlank(message = "아이디를 입력해주세요.")
     @Size(max = 12, message = "최대 12자리까지 입력 가능합니다.")

@@ -3,7 +3,7 @@ package com.campool.service;
 import com.campool.encrypt.Encryptor;
 import com.campool.exception.NoSuchUserException;
 import com.campool.mapper.UserMapper;
-import com.campool.model.UserLogin;
+import com.campool.model.UserLoginRequest;
 import com.campool.model.UserSignUp;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +32,9 @@ public class UserService {
         return userMapper.findById(id) != null;
     }
 
-    public UserSignUp getByUserLogin(UserLogin userLogin) {
+    public UserSignUp getByUserLogin(UserLoginRequest userLoginRequest) {
         UserSignUp userSignUp = userMapper
-                .findByIdAndPassword(userLogin.getId(), encryptor.encrypt(userLogin.getPassword()));
+                .findByIdAndPassword(userLoginRequest.getId(), encryptor.encrypt(userLoginRequest.getPassword()));
         if(isValidUser(userSignUp)) {
             return userSignUp;
         } else {

@@ -1,6 +1,6 @@
 package com.campool.controller;
 
-import com.campool.model.UserLogin;
+import com.campool.model.UserLoginRequest;
 import com.campool.model.UserSignUp;
 import com.campool.service.AuthService;
 import com.campool.service.UserService;
@@ -26,8 +26,8 @@ public class UserController {
     }
 
     @PostMapping("/users/login")
-    public void loginUser(@Valid UserLogin userLogin) {
-        UserSignUp userSignUp = userService.getByUserLogin(userLogin);
+    public void loginUser(@Valid UserLoginRequest userLoginRequest) {
+        UserSignUp userSignUp = userService.getByUserLogin(userLoginRequest);
         authService.authenticate(userSignUp);
     }
 
