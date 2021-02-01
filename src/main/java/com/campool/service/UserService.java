@@ -1,12 +1,10 @@
 package com.campool.service;
 
-import com.campool.auth.SessionAuth;
 import com.campool.encrypt.Encryptor;
 import com.campool.exception.NoSuchUserException;
 import com.campool.mapper.UserMapper;
 import com.campool.model.UserLogin;
 import com.campool.model.UserSignUp;
-import javax.servlet.http.HttpSession;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
@@ -34,17 +32,17 @@ public class UserService {
         return userMapper.findById(id) != null;
     }
 
-    public void login(UserLogin userLogin, HttpSession session) {
+    public UserSignUp getByUserLogin(UserLogin userLogin) {
         UserSignUp userSignUp = userMapper
                 .findByIdAndPassword(userLogin.getId(), encryptor.encrypt(userLogin.getPassword()));
-        if (isAuthenticatedUser(userSignUp)) {
-            SessionAuth.setAuthenticatedUser(userSignUp, session);
+        if(isValidUser(userSignUp)) {
+            return userSignUp;
         } else {
-            throw new NoSuchUserException("로그인에 실패했습니다.");
+            throw new NoSuchUserException("해당하는 사용자 정보가 없습니다.");
         }
     }
 
-    public boolean isAuthenticatedUser(UserSignUp userSignUp) {
+    public boolean isValidUser(UserSignUp userSignUp) {
         return userSignUp != null;
     }
 
