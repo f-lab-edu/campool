@@ -27,9 +27,7 @@ public class UserController {
 
     @PostMapping("/users/login")
     public void loginUser(@Valid UserLoginRequest userLoginRequest) {
-        UserSignUp userSignUp = authService
-                .getByIdAndPw(userLoginRequest.getId(), userLoginRequest.getPassword());
-        authService.authenticate(userSignUp);
+        authService.authenticate(userLoginRequest);
     }
 
 }
