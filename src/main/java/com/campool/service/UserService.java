@@ -1,6 +1,7 @@
 package com.campool.service;
 
 import com.campool.encrypt.Encryptor;
+import com.campool.exception.NoSuchUserException;
 import com.campool.mapper.UserMapper;
 import com.campool.model.UserSignUp;
 import lombok.NonNull;
@@ -28,6 +29,19 @@ public class UserService {
 
     public boolean isDuplicate(String id) {
         return userMapper.findById(id) != null;
+    }
+
+    public UserSignUp getByIdAndPw(String id, String password) {
+        UserSignUp userSignUp = userMapper.findByIdAndPassword(id, encryptor.encrypt(password));
+        if (isValidUser(userSignUp)) {
+            return userSignUp;
+        } else {
+            throw new NoSuchUserException("해당하는 사용자 정보가 없습니다.");
+        }
+    }
+
+    private boolean isValidUser(UserSignUp userSignUp) {
+        return userSignUp != null;
     }
 
 }

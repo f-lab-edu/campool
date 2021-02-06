@@ -1,6 +1,8 @@
 package com.campool.controller;
 
+import com.campool.model.UserLoginRequest;
 import com.campool.model.UserSignUp;
+import com.campool.service.AuthService;
 import com.campool.service.UserService;
 import javax.validation.Valid;
 import lombok.NonNull;
@@ -15,9 +17,17 @@ public class UserController {
     @NonNull
     private final UserService userService;
 
+    @NonNull
+    private final AuthService authService;
+
     @PostMapping("/users")
     public void signUpUser(@Valid UserSignUp userSignUp) {
         userService.add(userSignUp);
+    }
+
+    @PostMapping("/users/login")
+    public void loginUser(@Valid UserLoginRequest userLoginRequest) {
+        authService.authenticate(userLoginRequest);
     }
 
 }
