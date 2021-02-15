@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SessionAuthService implements AuthService {
 
-    public static final String AUTH_USER_KEY = "userSignUp";
+    public static final String AUTH_USER_KEY = "userId";
 
     @NonNull
     private final UserService userService;
@@ -23,7 +23,7 @@ public class SessionAuthService implements AuthService {
     public void authenticate(UserLoginRequest userLoginRequest) {
         UserSignUp userSignUp = userService
                 .getByIdAndPw(userLoginRequest.getId(), userLoginRequest.getPassword());
-        session.setAttribute(AUTH_USER_KEY, userSignUp);
+        session.setAttribute(AUTH_USER_KEY, userSignUp.getId());
     }
 
     @Override
