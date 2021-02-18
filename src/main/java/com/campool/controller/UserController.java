@@ -7,6 +7,7 @@ import com.campool.service.UserService;
 import javax.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +29,11 @@ public class UserController {
     @PostMapping("/users/login")
     public void loginUser(@Valid UserLoginRequest userLoginRequest) {
         authService.authenticate(userLoginRequest);
+    }
+
+    @GetMapping("/users/logout")
+    public void logoutUser() {
+        authService.deauthenticate();
     }
 
 }

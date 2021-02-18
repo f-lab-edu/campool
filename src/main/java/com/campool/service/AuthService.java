@@ -6,6 +6,8 @@ public interface AuthService {
 
     void authenticate(UserLoginRequest userSignUp);
 
+    void deauthenticate();
+
     boolean isValidAuthentication();
 
 }
