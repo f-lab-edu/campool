@@ -1,5 +1,6 @@
 package com.campool.controller;
 
+import com.campool.model.UserUpdateRequest;
 import com.campool.model.UserLoginRequest;
 import com.campool.model.UserSignUp;
 import com.campool.service.AuthService;
@@ -34,6 +35,11 @@ public class UserController {
     @GetMapping("/users/logout")
     public void logoutUser() {
         authService.deauthenticate();
+    }
+
+    @PostMapping("/users/update")
+    public void updateUser(@Valid UserUpdateRequest userUpdateRequest) {
+        userService.updateById(authService.getUserId(), userUpdateRequest);
     }
 
 }

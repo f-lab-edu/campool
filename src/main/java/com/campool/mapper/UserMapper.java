@@ -4,6 +4,7 @@ import com.campool.model.UserSignUp;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface UserMapper {
@@ -16,5 +17,8 @@ public interface UserMapper {
 
     @Select("SELECT ID, PASSWORD, NAME, EMAIL, TELEPHONE FROM USER WHERE id = #{id} AND password = #{password}")
     UserSignUp findByIdAndPassword(String id, String password);
+
+    @Update("UPDATE USER SET PASSWORD = #{password}, NAME = #{name}, EMAIL = #{email}, TELEPHONE = #{telephone} WHERE ID = #{id} ")
+    void updateById(String id, String password, String name, String email, String telephone);
 
 }

@@ -36,4 +36,9 @@ public class SessionAuthService implements AuthService {
         return session.getAttribute(AUTH_USER_KEY) != null;
     }
 
+    @Override
+    public String getUserId() {
+        return (String) session.getAttribute(AUTH_USER_KEY);
+    }
+
 }
