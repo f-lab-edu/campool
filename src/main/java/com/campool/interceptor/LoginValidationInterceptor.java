@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -23,7 +24,7 @@ public class LoginValidationInterceptor implements HandlerInterceptor {
         if (authService.isValidAuthentication()) {
             return true;
         } else {
-            response.sendError(403, "로그인이 필요한 서비스입니다.");
+            response.sendError(HttpStatus.FORBIDDEN.value(), "로그인이 필요한 서비스입니다.");
             return false;
         }
     }
