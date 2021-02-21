@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,9 +38,9 @@ public class UserController {
         authService.deauthenticate();
     }
 
-    @PostMapping("/users/update")
-    public void updateUser(@Valid UserUpdateRequest userUpdateRequest) {
-        userService.updateById(authService.getUserId(), userUpdateRequest);
+    @PostMapping("/users/{id}")
+    public void updateUser(@Valid UserUpdateRequest userUpdateRequest, @PathVariable String id) {
+        userService.updateById(id, userUpdateRequest);
     }
 
 }
