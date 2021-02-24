@@ -20,8 +20,11 @@ public class PresentUserIdResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return (parameter.getParameterAnnotation(PresentUserId.class) != null)
-                && parameter.getParameterType().equals(String.class);
+        boolean isString = parameter.getParameterType().equals(String.class);
+        if (!isString) {
+            throw new IllegalArgumentException("String 타입의 매개 변수에만 사용 가능합니다.");
+        }
+        return parameter.getParameterAnnotation(PresentUserId.class) != null;
     }
 
     @Override
