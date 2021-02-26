@@ -1,5 +1,6 @@
 package com.campool.controller;
 
+import com.campool.annotation.LoginValidation;
 import com.campool.model.UserLoginRequest;
 import com.campool.model.UserSignUp;
 import com.campool.service.AuthService;
@@ -31,6 +32,7 @@ public class UserController {
         authService.authenticate(userLoginRequest);
     }
 
+    @LoginValidation
     @GetMapping("/users/logout")
     public void logoutUser() {
         authService.deauthenticate();
