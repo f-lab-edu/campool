@@ -1,6 +1,7 @@
 package com.campool.mapper;
 
 import com.campool.model.UserSignUp;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -20,5 +21,8 @@ public interface UserMapper {
 
     @Update("UPDATE USER SET PASSWORD = #{password}, NAME = #{name}, EMAIL = #{email}, TELEPHONE = #{telephone} WHERE ID = #{id} ")
     void updateById(String id, String password, String name, String email, String telephone);
+
+    @Delete("DELETE FROM USER WHERE ID = #{id}")
+    void deleteById(String id);
 
 }

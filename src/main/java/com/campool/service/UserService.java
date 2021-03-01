@@ -53,4 +53,12 @@ public class UserService {
                 userUpdateRequest.getTelephone());
     }
 
+    public void deleteById(String id) {
+        if (isValidUser(userMapper.findById(id))) {
+            userMapper.deleteById(id);
+        } else {
+            throw new NoSuchUserException("해당하는 사용자 정보가 없습니다.");
+        }
+    }
+
 }
