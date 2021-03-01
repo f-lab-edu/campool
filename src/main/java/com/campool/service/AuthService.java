@@ -10,4 +10,6 @@ public interface AuthService {
 
     boolean isValidAuthentication();
 
+    String getAuthenticatedUserId();
+
 }
