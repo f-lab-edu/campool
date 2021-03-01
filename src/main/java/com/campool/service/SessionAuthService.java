@@ -27,8 +27,18 @@ public class SessionAuthService implements AuthService {
     }
 
     @Override
+    public void deauthenticate() {
+        session.invalidate();
+    }
+
+    @Override
     public boolean isValidAuthentication() {
         return session.getAttribute(AUTH_USER_KEY) != null;
+    }
+
+    @Override
+    public String getAuthenticatedUserId() {
+        return (String) session.getAttribute(AUTH_USER_KEY);
     }
 
 }

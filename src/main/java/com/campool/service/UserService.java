@@ -4,6 +4,7 @@ import com.campool.encrypt.Encryptor;
 import com.campool.exception.NoSuchUserException;
 import com.campool.mapper.UserMapper;
 import com.campool.model.UserSignUp;
+import com.campool.model.UserUpdateRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
@@ -42,6 +43,14 @@ public class UserService {
 
     private boolean isValidUser(UserSignUp userSignUp) {
         return userSignUp != null;
+    }
+
+    public void updateById(String id, UserUpdateRequest userUpdateRequest) {
+        //현재 비밀번호의 사용자가 존재하는지 확인
+        getByIdAndPw(id, userUpdateRequest.getPresentPassword());
+        userMapper.updateById(id, encryptor.encrypt(userUpdateRequest.getNewPassword()),
+                userUpdateRequest.getName(), userUpdateRequest.getEmail(),
+                userUpdateRequest.getTelephone());
     }
 
 }
