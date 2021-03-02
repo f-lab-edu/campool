@@ -15,7 +15,7 @@ public class UserUpdateRequest {
 
     @NotBlank(message = "현재 비밀번호를 입력해주세요.")
     @Size(max = 20, message = "최대 20자리까지 입력 가능합니다.")
-    private final String presentPassword;
+    private final String currentPassword;
 
     @NotBlank(message = "새로운 비밀번호를 입력해주세요.")
     @Size(max = 20, message = "최대 20자리까지 입력 가능합니다.")
