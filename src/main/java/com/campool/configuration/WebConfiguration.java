@@ -10,11 +10,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
-    private final HandlerMethodArgumentResolver presentUserIdResolver;
+    private final HandlerMethodArgumentResolver loginUserIdResolver;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolverList) {
-        argumentResolverList.add(presentUserIdResolver);
+        argumentResolverList.add(loginUserIdResolver);
     }
 
 }

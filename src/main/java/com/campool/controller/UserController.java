@@ -1,6 +1,6 @@
 package com.campool.controller;
 
-import com.campool.annotation.PresentUserId;
+import com.campool.annotation.LoginUserId;
 import com.campool.model.UserUpdateRequest;
 import com.campool.annotation.LoginValidation;
 import com.campool.model.UserLoginRequest;
@@ -10,6 +10,7 @@ import com.campool.service.UserService;
 import javax.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,8 +43,15 @@ public class UserController {
     }
 
     @PatchMapping("/users")
-    public void updateUser(@Valid UserUpdateRequest userUpdateRequest, @PresentUserId String id) {
+    public void updateUser(@Valid UserUpdateRequest userUpdateRequest, @LoginUserId String id) {
         userService.updateById(id, userUpdateRequest);
+    }
+
+    @LoginValidation
+    @DeleteMapping("/users")
+    public void deleteUser(@LoginUserId String id) {
+        userService.deleteById(id);
+        authService.deauthenticate();
     }
 
 }

@@ -1,6 +1,6 @@
 package com.campool.resolver;
 
-import com.campool.annotation.PresentUserId;
+import com.campool.annotation.LoginUserId;
 import com.campool.service.AuthService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @RequiredArgsConstructor
 @Component
-public class PresentUserIdResolver implements HandlerMethodArgumentResolver {
+public class LoginUserIdResolver implements HandlerMethodArgumentResolver {
 
     @NonNull
     private final AuthService authService;
@@ -21,7 +21,7 @@ public class PresentUserIdResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean isString = parameter.getParameterType().equals(String.class);
-        if (parameter.hasParameterAnnotation(PresentUserId.class)) {
+        if (parameter.hasParameterAnnotation(LoginUserId.class)) {
             if (isString) {
                 return true;
             } else {

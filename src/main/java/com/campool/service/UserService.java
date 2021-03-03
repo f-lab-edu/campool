@@ -47,10 +47,18 @@ public class UserService {
 
     public void updateById(String id, UserUpdateRequest userUpdateRequest) {
         //현재 비밀번호의 사용자가 존재하는지 확인
-        getByIdAndPw(id, userUpdateRequest.getPresentPassword());
+        getByIdAndPw(id, userUpdateRequest.getCurrentPassword());
         userMapper.updateById(id, encryptor.encrypt(userUpdateRequest.getNewPassword()),
                 userUpdateRequest.getName(), userUpdateRequest.getEmail(),
                 userUpdateRequest.getTelephone());
+    }
+
+    public void deleteById(String id) {
+        if (isValidUser(userMapper.findById(id))) {
+            userMapper.deleteById(id);
+        } else {
+            throw new NoSuchUserException("해당하는 사용자 정보가 없습니다.");
+        }
     }
 
 }
