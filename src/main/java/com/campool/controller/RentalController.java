@@ -21,7 +21,7 @@ public class RentalController {
     private final RentalService rentalService;
 
     @LoginValidation
-    @PostMapping("/rental")
+    @PostMapping("/rentals")
     public void registerRental(@Valid RentalRegisterRequest rentalRegisterRequest,
             @RequestBody List<CampingGear> gears, @LoginUserId String id) {
         rentalService.register(id, rentalRegisterRequest, gears);
