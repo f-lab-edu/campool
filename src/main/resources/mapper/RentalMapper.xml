@@ -5,17 +5,17 @@
 <mapper namespace="com.campool.mapper.RentalMapper">
     <insert id="insertRental">
         INSERT INTO rental
-        (
-        title, description, status, user_id,
-        start_date, end_date, cost,
-        create_time, location
-        )
+            (
+                title, description, status, user_id,
+                start_date, end_date, cost,
+                create_time, location
+            )
         VALUES
-        (
-        #{rental.title}, #{rental.description}, 'status1', #{userId},
-        #{rental.startDate}, #{rental.endDate}, #{rental.cost},
-        NOW(), POINT(#{rental.longitude}, #{rental.latitude})
-        )
+            (
+                #{rental.title}, #{rental.description}, 'status1', #{userId},
+                #{rental.startDate}, #{rental.endDate}, #{rental.cost},
+                NOW(), POINT(#{rental.longitude}, #{rental.latitude})
+            )
     </insert>
 
     <insert id="insertGears">
