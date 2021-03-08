@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.campool.mapper.RentalMapper">
+    <insert id="insertRental">
+        INSERT INTO rental
+            (
+                title, description, status, user_id,
+                start_date, end_date, cost,
+                create_time, location
+            )
+        VALUES
+            (
+                #{rental.title}, #{rental.description}, 'status1', #{userId},
+                #{rental.startDate}, #{rental.endDate}, #{rental.cost},
+                NOW(), POINT(#{rental.longitude}, #{rental.latitude})
+            )
+    </insert>
+
+    <insert id="insertGears">
+        <selectKey keyProperty="rentalId" resultType="java.lang.Integer" order="BEFORE">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO gear (rental_id, name, type, count)
+        VALUES
+        <foreach item="gear" collection="gears" separator=",">
+            (#{rentalId}, #{gear.name}, #{gear.type}, #{gear.count})
+        </foreach>
+    </insert>
+</mapper>
