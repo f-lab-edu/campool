@@ -2,7 +2,9 @@ package com.campool.service;
 
 import com.campool.mapper.RentalMapper;
 import com.campool.model.CampingGear;
+import com.campool.model.Rental;
 import com.campool.model.RentalRegisterRequest;
+import com.campool.model.RentalsRequestByLocation;
 import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,10 @@ public class RentalService {
     public void register(String userId, RentalRegisterRequest rentalRegisterRequest, List<CampingGear> gears) {
         rentalMapper.insertRental(userId, rentalRegisterRequest);
         rentalMapper.insertGears(gears);
+    }
+
+    public List<Rental> getRentalsByLocation(RentalsRequestByLocation rentalsRequestByLocation) {
+        return rentalMapper.selectRentalsByLocation(rentalsRequestByLocation);
     }
 
 }

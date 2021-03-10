@@ -28,4 +28,18 @@
             (#{rentalId}, #{gear.name}, #{gear.type}, #{gear.count})
         </foreach>
     </insert>
+
+    <select id="selectRentalsByLocation" resultType="com.campool.model.Rental">
+        SELECT id AS rentalId,
+               title,
+               user_id AS userId,
+               start_date AS startDate,
+               end_date AS endDate,
+               cost,
+               ST_X(location) AS longitude,
+               ST_Y(location) AS latitude
+        FROM rental
+        WHERE status = 'status1'
+          AND #{distanceInMeters} > ST_DisTance_Sphere(POINT(#{longitude}, #{latitude}), location)
+    </select>
 </mapper>
