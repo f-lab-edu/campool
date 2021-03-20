@@ -23,4 +23,6 @@ public class RentalsRequestByLocation {
     @NonNull
     private final double latitude;
 
+    private final Integer typeId;
+
 }

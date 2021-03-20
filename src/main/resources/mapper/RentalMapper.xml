@@ -38,8 +38,14 @@
                cost,
                ST_X(location) AS longitude,
                ST_Y(location) AS latitude
-        FROM rental
-        WHERE status = 'status1'
-          AND #{distanceInMeters} > ST_DisTance_Sphere(POINT(#{longitude}, #{latitude}), location)
+        FROM rental r
+        <if test="typeId != null">
+        , gear g
+        </if>
+        WHERE r.status = 'status1'
+          <if test="typeId != null">
+          AND r.id = g.rental_id AND g.type=#{typeId}
+          </if>
+          AND #{distanceInMeters} > ST_DisTance_Sphere(POINT(#{longitude}, #{latitude}), r.location)
     </select>
 </mapper>
