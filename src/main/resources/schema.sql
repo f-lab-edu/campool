@@ -22,6 +22,11 @@ CREATE TABLE IF NOT EXISTS `rental` (
 CREATE TABLE IF NOT EXISTS `gear` (
     `rental_id` bigint,
     `name` varchar(255) NOT NULL,
-    `type` varchar(255) NOT NULL,
+    `type` bigint NOT NULL,
     `count` int default 1
+);
+
+CREATE TABLE IF NOT EXISTS `type` (
+    `id` bigint PRIMARY KEY AUTO_INCREMENT,
+    `name` varchar(255) NOT NULL
 );
