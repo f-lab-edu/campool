@@ -25,7 +25,7 @@
         INSERT INTO gear (rental_id, name, type, count)
         VALUES
         <foreach item="gear" collection="gears" separator=",">
-            (#{rentalId}, #{gear.name}, #{gear.type}, #{gear.count})
+            (#{rentalId}, #{gear.name}, #{gear.typeId}, #{gear.count})
         </foreach>
     </insert>
 

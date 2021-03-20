@@ -11,7 +11,7 @@ public class CampingGear {
 
     private final String name;
 
-    private final String type;
+    private final int typeId;
 
     private final int count;
 
