@@ -1,15 +1,15 @@
 package com.campool.model;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@Setter
+@RequiredArgsConstructor
 @ToString
 public class GearType {
 
-    private int id;
+    private final int id;
 
-    private String name;
+    private final String name;
 }
