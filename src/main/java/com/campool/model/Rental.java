@@ -2,31 +2,31 @@ package com.campool.model;
 
 import java.time.LocalDate;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
-@Setter
+@RequiredArgsConstructor
 @ToString
 public class Rental {
 
-    private int rentalId;
+    private final int rentalId;
 
-    private String title;
+    private final String title;
 
-    private String userId;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate startDate;
+    private final String userId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate endDate;
+    private final LocalDate startDate;
 
-    private int cost;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private final LocalDate endDate;
 
-    private double longitude;
+    private final int cost;
 
-    private double latitude;
+    private final double longitude;
+
+    private final double latitude;
 
 }
