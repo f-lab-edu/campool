@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.springframework.lang.Nullable;
 
 @Getter
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class RentalsRequestByLocation {
     @NonNull
     private final double latitude;
 
+    @Nullable
     private final Integer typeId;
 
 }
