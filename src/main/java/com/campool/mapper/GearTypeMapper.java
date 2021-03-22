@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 public interface GearTypeMapper {
 
     /**
-     * 렌트정보 조회 시 참조하는 캠핑용품 전체 유형을 가져오는 쿼리
+     * 캠핑용품 유형 데이터는 많지 않기 때문에 테이블 전체를 불러와 캐싱하기 위한 용도
      */
     @Select("SELECT ID, NAME FROM TYPE")
     List<GearType> selectGearTypes();
