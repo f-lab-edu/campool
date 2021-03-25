@@ -1,5 +1,7 @@
 package com.campool.model;
 
+
+import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -7,12 +9,10 @@ import lombok.ToString;
 @Getter
 @RequiredArgsConstructor
 @ToString
-public class CampingGear {
+public class RentalDetailsResponse {
 
-    private final String name;
+    private final RentalInfo rentalInfo;
 
-    private final int typeId;
-
-    private final int count;
+    private final List<CampingGear> gears;
 
 }

@@ -9,11 +9,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 @RequiredArgsConstructor
 @ToString
-public class Rental {
+public class RentalInfo {
 
     private final int rentalId;
 
     private final String title;
+
+    private final String description;
+
+    private final String status;
 
     private final String userId;
 

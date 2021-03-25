@@ -25,7 +25,7 @@
         INSERT INTO gear (rental_id, name, type, count)
         VALUES
         <foreach item="gear" collection="gears" separator=",">
-            (#{rentalId}, #{gear.name}, #{gear.type}, #{gear.count})
+            (#{rentalId}, #{gear.name}, #{gear.typeId}, #{gear.count})
         </foreach>
     </insert>
 
@@ -38,8 +38,35 @@
                cost,
                ST_X(location) AS longitude,
                ST_Y(location) AS latitude
+        FROM rental r
+        <if test="typeId != null">
+        , gear g
+        </if>
+        WHERE r.status = 'status1'
+          <if test="typeId != null">
+          AND r.id = g.rental_id AND g.type=#{typeId}
+          </if>
+          AND #{distanceInMeters} > ST_DisTance_Sphere(POINT(#{longitude}, #{latitude}), r.location)
+    </select>
+
+    <select id="findRentalInfoById" resultType="com.campool.model.RentalInfo">
+        SELECT id AS rentalId,
+        title,
+        description,
+        status,
+        user_id AS userId,
+        start_date AS startDate,
+        end_date AS endDate,
+        cost,
+        ST_X(location) AS longitude,
+        ST_Y(location) AS latitude
         FROM rental
-        WHERE status = 'status1'
-          AND #{distanceInMeters} > ST_DisTance_Sphere(POINT(#{longitude}, #{latitude}), location)
+        WHERE id = #{id}
+    </select>
+
+    <select id="findGearsByRentalId" resultType="com.campool.model.CampingGear">
+        SELECT name, type AS typeId, count
+        FROM gear
+        WHERE rental_id = #{rentalId}
     </select>
 </mapper>

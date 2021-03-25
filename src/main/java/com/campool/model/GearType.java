@@ -7,12 +7,9 @@ import lombok.ToString;
 @Getter
 @RequiredArgsConstructor
 @ToString
-public class CampingGear {
+public class GearType {
+
+    private final int id;
 
     private final String name;
-
-    private final int typeId;
-
-    private final int count;
-
 }
