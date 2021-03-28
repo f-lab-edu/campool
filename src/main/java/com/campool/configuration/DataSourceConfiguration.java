@@ -18,6 +18,9 @@ import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 @Configuration
 public class DataSourceConfiguration {
 
+    public static String MASTER = "master";
+    public static String SLAVE = "slave";
+
     @ConfigurationProperties(prefix = "campool.datasource.master")
     @Bean
     public DataSource masterDataSource() {
@@ -34,8 +37,8 @@ public class DataSourceConfiguration {
     public DataSource routingDataSource(@Qualifier("masterDataSource") DataSource masterDataSource,
             @Qualifier("slaveDataSource") DataSource slaveDataSource) {
         Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put("master", masterDataSource);
-        targetDataSources.put("slave", slaveDataSource);
+        targetDataSources.put(MASTER, masterDataSource);
+        targetDataSources.put(SLAVE, slaveDataSource);
 
         RoutingDataSource routingDataSource = new RoutingDataSource();
         routingDataSource.setTargetDataSources(targetDataSources);
