@@ -1,7 +1,7 @@
 package com.campool.configuration.datasource;
 
-import static com.campool.configuration.DataSourceConfiguration.MASTER;
-import static com.campool.configuration.DataSourceConfiguration.SLAVE;
+import static com.campool.enumeration.DataSourceType.MASTER;
+import static com.campool.enumeration.DataSourceType.SLAVE;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.support.TransactionSynchronizationManager;

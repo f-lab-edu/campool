@@ -1,5 +1,8 @@
 package com.campool.configuration;
 
+import static com.campool.enumeration.DataSourceType.MASTER;
+import static com.campool.enumeration.DataSourceType.SLAVE;
+
 import com.campool.configuration.datasource.RoutingDataSource;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +20,6 @@ import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 @Configuration
 public class DataSourceConfiguration {
-
-    public static String MASTER = "master";
-    public static String SLAVE = "slave";
 
     @ConfigurationProperties(prefix = "campool.datasource.master")
     @Bean
