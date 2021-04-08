@@ -14,4 +14,7 @@ public interface AdminMapper {
     @Select("SELECT ID, PASSWORD, NAME, EMAIL, TELEPHONE FROM ADMIN WHERE id = #{id}")
     AdminSignUp findById(String id);
 
+    @Select("SELECT ID, PASSWORD, NAME, EMAIL, TELEPHONE FROM ADMIN WHERE id = #{id} AND password = #{password}")
+    AdminSignUp findByIdAndPassword(String id, String password);
+
 }
