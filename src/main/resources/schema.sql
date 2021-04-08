@@ -6,6 +6,14 @@ CREATE TABLE IF NOT EXISTS `user` (
     `telephone` varchar(11)
 );
 
+CREATE TABLE IF NOT EXISTS `admin` (
+    `id` varchar(12) PRIMARY KEY,
+    `password` varchar(64) NOT NULL,
+    `name` varchar(20) NOT NULL,
+    `email` varchar(50),
+    `telephone` varchar(11)
+);
+
 CREATE TABLE IF NOT EXISTS `rental` (
     `id` bigint PRIMARY KEY AUTO_INCREMENT,
     `title` varchar(255) NOT NULL,
