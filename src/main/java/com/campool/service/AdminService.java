@@ -33,14 +33,14 @@ public class AdminService {
 
     public AdminSignUp getByIdAndPw(String id, String password) {
         AdminSignUp adminSignUp = adminMapper.findByIdAndPassword(id, encryptor.encrypt(password));
-        if (isValidUser(adminSignUp)) {
+        if (isValidAdmin(adminSignUp)) {
             return adminSignUp;
         } else {
             throw new NoSuchUserException("해당하는 관리자 정보가 없습니다.");
         }
     }
 
-    private boolean isValidUser(AdminSignUp adminSignUp) {
+    private boolean isValidAdmin(AdminSignUp adminSignUp) {
         return adminSignUp != null;
     }
 
