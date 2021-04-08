@@ -1,10 +1,10 @@
 package com.campool.service;
 
-import com.campool.model.UserLoginRequest;
+import com.campool.model.LoginRequest;
 
 public interface AuthService {
 
-    void authenticate(UserLoginRequest userSignUp);
+    void authenticate(LoginRequest loginRequest);
 
     void deauthenticate();
 
