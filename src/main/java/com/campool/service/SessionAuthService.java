@@ -28,11 +28,13 @@ public class SessionAuthService implements AuthService {
         String id = loginRequest.getId();
         String password = loginRequest.getPassword();
         Role role = loginRequest.getRole();
+
         if (isAdmin(role)) {
             adminService.getByIdAndPw(id, password);
         } else {
             userService.getByIdAndPw(id, password);
         }
+
         session.setAttribute(ID_KEY, id);
         session.setAttribute(ROLE_KEY, role);
     }
