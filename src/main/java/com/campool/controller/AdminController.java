@@ -33,7 +33,7 @@ public class AdminController {
     }
 
     @LoginValidation
-    @GetMapping("/users/logout")
+    @GetMapping("/admins/logout")
     public void logoutAdmin() {
         authService.deauthenticate();
     }
