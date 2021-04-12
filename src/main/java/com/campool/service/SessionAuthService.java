@@ -54,6 +54,10 @@ public class SessionAuthService implements AuthService {
         return (String) session.getAttribute(ID_KEY);
     }
 
+    @Override
+    public Role getAuthorization() {
+        return (Role) session.getAttribute(ROLE_KEY);
+    }
 
     private boolean isAdmin(Role role) {
         return role.equals(Role.ADMIN);
