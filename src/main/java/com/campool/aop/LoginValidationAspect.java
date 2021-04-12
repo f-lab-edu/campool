@@ -31,10 +31,10 @@ public class LoginValidationAspect {
         Method method = signature.getMethod();
         LoginValidation loginValidation = method.getAnnotation(LoginValidation.class);
 
-        int necessaryRole = loginValidation.authorization().getOrder();
-        int currentRole = authService.getAuthorization().getOrder();
+        int necessaryRoleOrder = loginValidation.role().getOrder();
+        int currentRoleOrder = authService.getAuthorization().getOrder();
 
-        if (currentRole < necessaryRole) {
+        if (currentRoleOrder < necessaryRoleOrder) {
             throw new HttpClientErrorException(HttpStatus.FORBIDDEN, "해당 권한은 접근할 수 없습니다.");
         }
     }

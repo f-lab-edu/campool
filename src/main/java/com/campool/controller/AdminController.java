@@ -33,7 +33,7 @@ public class AdminController {
         authService.authenticate(adminLoginRequest);
     }
 
-    @LoginValidation(authorization = Role.ADMIN)
+    @LoginValidation(role = Role.ADMIN)
     @GetMapping("/admins/logout")
     public void logoutAdmin() {
         authService.deauthenticate();
