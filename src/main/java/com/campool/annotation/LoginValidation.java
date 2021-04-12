@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LoginValidation {
 
-    Role authorization() default Role.USER;
+    Role role() default Role.USER;
 
 }
