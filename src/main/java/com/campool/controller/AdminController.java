@@ -1,6 +1,7 @@
 package com.campool.controller;
 
 import com.campool.annotation.LoginValidation;
+import com.campool.enumeration.Role;
 import com.campool.model.AdminLoginRequest;
 import com.campool.model.AdminSignUp;
 import com.campool.service.AdminService;
@@ -32,7 +33,7 @@ public class AdminController {
         authService.authenticate(adminLoginRequest);
     }
 
-    @LoginValidation
+    @LoginValidation(authorization = Role.ADMIN)
     @GetMapping("/admins/logout")
     public void logoutAdmin() {
         authService.deauthenticate();
