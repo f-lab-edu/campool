@@ -1,5 +1,6 @@
 package com.campool.service;
 
+import com.campool.enumeration.Role;
 import com.campool.model.LoginRequest;
 
 public interface AuthService {
@@ -11,5 +12,7 @@ public interface AuthService {
     boolean isValidAuthentication();
 
     String getAuthenticatedUserId();
+
+    Role getAuthorization();
 
 }
