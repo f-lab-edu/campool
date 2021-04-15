@@ -41,7 +41,7 @@ class AdminControllerTest {
                 "adminIdOver12Size",
                 "adminPasswordOver20Size",
                 "adminNameOver20Size@@@@",
-                "admin@emailcokr",
+                "adminemailcokr",
                 "010-1234-1234");
     }
 
