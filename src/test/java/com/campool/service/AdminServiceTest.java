@@ -10,6 +10,7 @@ import com.campool.exception.NoSuchUserException;
 import com.campool.mapper.AdminMapper;
 import com.campool.model.AdminSignUp;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -43,6 +44,7 @@ class AdminServiceTest {
                 "01012341234");
     }
 
+    @DisplayName("중복된 ID의 관리자 추가 요청은 중복 예외를 발생")
     @Test
     void addDuplicateAdminIdThrowsException() {
         AdminSignUp duplicateAdmin = new AdminSignUp(
@@ -59,6 +61,7 @@ class AdminServiceTest {
         assertEquals("중복된 아이디가 존재합니다.", exception.getMessage());
     }
 
+    @DisplayName("존재하는 관리자 ID, PASSWORD로 요청 시 해당 관리자 정보를 담은 객체를 반환")
     @Test
     void findByExistentAdminIdAndPw() {
         String id = "adminId";
@@ -71,6 +74,7 @@ class AdminServiceTest {
         assertNotNull(adminService.getByIdAndPw(id, password));
     }
 
+    @DisplayName("존재하지 않는 관리자 ID, PASSWORD로 요청 시 예외 발생")
     @Test
     void findByNonExistentAdminIdAndPwThrowsException() {
         String id = "id";
