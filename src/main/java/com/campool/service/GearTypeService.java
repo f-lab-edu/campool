@@ -3,6 +3,7 @@ package com.campool.service;
 import com.campool.mapper.GearTypeMapper;
 import com.campool.model.GearType;
 import java.util.List;
+import java.util.NoSuchElementException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,6 +31,14 @@ public class GearTypeService {
 
     public boolean isDuplicateByName(String name) {
         return gearTypeMapper.findGearTypeByName(name) != null;
+    }
+
+    public void updateByName(String currentName, String newName) {
+        GearType gearType = gearTypeMapper.findGearTypeByName(currentName);
+        if (gearType == null) {
+            throw new NoSuchElementException("존재하지 않는 타입 명입니다.");
+        }
+        gearTypeMapper.updateByName(currentName, newName);
     }
 
 }

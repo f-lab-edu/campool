@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface GearTypeMapper {
@@ -20,5 +21,8 @@ public interface GearTypeMapper {
 
     @Insert("INSERT INTO TYPE(name) VALUES(#{name})")
     void insertGearType(String name);
+
+    @Update("UPDATE TYPE SET NAME = #{newName} WHERE NAME = #{currentName}")
+    void updateByName(String currentName, String newName);
 
 }
