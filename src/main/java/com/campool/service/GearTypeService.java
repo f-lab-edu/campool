@@ -40,7 +40,7 @@ public class GearTypeService {
         gearTypeMapper.updateByName(currentName, newName);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         if (isNotValidGearType(gearTypeMapper.findGearTypeById(id))) {
             throw new NoSuchElementException("존재하지 않는 타입입니다.");
         }
