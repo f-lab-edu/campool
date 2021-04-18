@@ -4,8 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.campool.mapper.GearTypeMapper;
 import com.campool.model.GearType;
-import com.campool.model.GearTypeRegisterRequest;
+import java.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,15 +32,29 @@ class GearTypeServiceTest {
         gearType = new GearType(1, "gearType");
     }
 
+    @DisplayName("중복된 타입의 추가 요청은 중복 예외를 발생")
     @Test
     void addDuplicateGearTypeNameThrowsException() {
-        String duplicateGearTypeName = "gearType";
         given(gearTypeMapper.findGearTypeByName(gearType.getName())).willReturn(gearType);
+        String duplicateGearTypeName = "gearType";
 
         Exception exception = assertThrows(DuplicateKeyException.class,
                 () -> gearTypeService.addGearType(duplicateGearTypeName));
 
         assertEquals("이미 등록되어 있는 타입입니다.", exception.getMessage());
+    }
+
+    @DisplayName("존재하지 않는 현재 타입 명으로 요청 시 예외 발생")
+    @Test
+    void updateNonExistentCurrentNameThrowsException() {
+        String nonExistentName = "currentName";
+        given(gearTypeMapper.findGearTypeByName(nonExistentName)).willReturn(null);
+
+        Exception exception = assertThrows(NoSuchElementException.class,
+                () -> gearTypeService.update("currentName", "newName"));
+
+        assertEquals("존재하지 않는 타입 명입니다.", exception.getMessage());
+
     }
 
 }

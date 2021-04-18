@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(GearTypeController.class)
@@ -26,7 +27,7 @@ class GearTypeControllerTest {
 
     @DisplayName("올바른 타입 추가 요청 시 200 상태 코드를 반환")
     @Test
-    void registerGearTypeHasSuccess() throws Exception {
+    void registerGearTypeSuccess() throws Exception {
         this.mockMvc.perform(
                 post("/types")
                         .param("name", "gearTypeName"))
@@ -47,6 +48,25 @@ class GearTypeControllerTest {
                 post("/types")
                         .param("name", gearTypeNameOver255))
                 .andExpect(status().is4xxClientError());
+    }
+
+    @DisplayName("현재 타입 명이 없는 변경 요청 시 400 상태 코드를 응답")
+    @Test
+    void updateGearTypeWithoutCurrentNameHasError() throws Exception {
+        this.mockMvc.perform(
+                patch("/types")
+                        .param("newName", "newGearType"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @DisplayName("올바른 타입 변경 요청 시 200 상태 코드를 반환")
+    @Test
+    void updateGearTypeSuccess() throws Exception {
+        this.mockMvc.perform(
+                patch("/types")
+                        .param("currentName", "currentGearType")
+                        .param("newName", "newGearType"))
+                .andExpect(status().isOk());
     }
 
 }
