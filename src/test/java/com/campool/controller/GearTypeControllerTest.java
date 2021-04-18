@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(GearTypeController.class)
@@ -66,6 +67,20 @@ class GearTypeControllerTest {
                 patch("/types")
                         .param("currentName", "currentGearType")
                         .param("newName", "newGearType"))
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("순수 정수로 변경 불가능한 ID로 삭제 요청 시 400 상태 코드를 응답")
+    @Test
+    void deleteGearTypeByStringHasErrors() throws Exception {
+        this.mockMvc.perform(delete("/types/gearTypeId"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @DisplayName("정수로 변환 가능한 ID로 삭제 요청 시 200 상태 코드를 반환")
+    @Test
+    void deleteGearTypeByNumberSuccess() throws Exception {
+        this.mockMvc.perform(delete("/types/123"))
                 .andExpect(status().isOk());
     }
 

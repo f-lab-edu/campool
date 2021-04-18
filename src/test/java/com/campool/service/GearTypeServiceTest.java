@@ -57,4 +57,16 @@ class GearTypeServiceTest {
 
     }
 
+    @DisplayName("존재하지 않는 ID로 삭제 요청 시 예외 발생")
+    @Test
+    void deleteNonExistentIdThrowsException() {
+        int nonExistentId = 123;
+        given(gearTypeMapper.findGearTypeById(nonExistentId)).willReturn(null);
+
+        Exception exception = assertThrows(NoSuchElementException.class,
+                () -> gearTypeService.deleteById(123));
+
+        assertEquals("존재하지 않는 타입입니다.", exception.getMessage());
+    }
+
 }
