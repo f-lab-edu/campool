@@ -51,7 +51,7 @@ class GearTypeServiceTest {
         given(gearTypeMapper.findGearTypeByName(nonExistentName)).willReturn(null);
 
         Exception exception = assertThrows(NoSuchElementException.class,
-                () -> gearTypeService.update("currentName", "newName"));
+                () -> gearTypeService.updateByName("currentName", "newName"));
 
         assertEquals("존재하지 않는 타입 명입니다.", exception.getMessage());
 
