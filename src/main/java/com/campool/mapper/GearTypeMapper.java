@@ -2,6 +2,7 @@ package com.campool.mapper;
 
 import com.campool.model.GearType;
 import java.util.List;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -13,5 +14,11 @@ public interface GearTypeMapper {
      */
     @Select("SELECT ID, NAME FROM TYPE")
     List<GearType> selectGearTypes();
+
+    @Select("SELECT ID, NAME FROM TYPE WHERE NAME = #{name}")
+    GearType findGearTypeByName(String name);
+
+    @Insert("INSERT INTO TYPE(name) VALUES(#{name})")
+    void insertGearType(String name);
 
 }
