@@ -45,7 +45,7 @@ public class GearTypeController {
 
     @LoginValidation(role = Role.ADMIN)
     @DeleteMapping("/types/{id}")
-    public void deleteGearType(@PathVariable int id) {
+    public void deleteGearType(@PathVariable long id) {
         gearTypeService.deleteById(id);
     }
 

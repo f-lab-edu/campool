@@ -21,7 +21,7 @@ public interface GearTypeMapper {
     GearType findGearTypeByName(String name);
 
     @Select("SELECT ID, NAME FROM TYPE WHERE ID = #{id}")
-    GearType findGearTypeById(int id);
+    GearType findGearTypeById(long id);
 
     @Insert("INSERT INTO TYPE(name) VALUES(#{name})")
     void insertGearType(String name);
@@ -30,6 +30,6 @@ public interface GearTypeMapper {
     void updateByName(String currentName, String newName);
 
     @Delete("DELETE FROM TYPE WHERE ID = #{id}")
-    void deleteById(int id);
+    void deleteById(long id);
 
 }
