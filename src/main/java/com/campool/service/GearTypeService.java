@@ -34,11 +34,21 @@ public class GearTypeService {
     }
 
     public void updateByName(String currentName, String newName) {
-        GearType gearType = gearTypeMapper.findGearTypeByName(currentName);
-        if (gearType == null) {
+        if (isNotValidGearType(gearTypeMapper.findGearTypeByName(currentName))) {
             throw new NoSuchElementException("존재하지 않는 타입 명입니다.");
         }
         gearTypeMapper.updateByName(currentName, newName);
+    }
+
+    public void deleteById(int id) {
+        if (isNotValidGearType(gearTypeMapper.findGearTypeById(id))) {
+            throw new NoSuchElementException("존재하지 않는 타입입니다.");
+        }
+        gearTypeMapper.deleteById(id);
+    }
+
+    private boolean isNotValidGearType(GearType gearType) {
+        return gearType == null;
     }
 
 }
