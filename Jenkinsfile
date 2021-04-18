@@ -21,6 +21,14 @@ pipeline {
             steps {
                 sh "mvn clean package -DskipTests"
             }
+            post {
+                success {
+                    echo 'build success!!'
+                }
+                failure {
+                    echo 'build failure!!'
+                }
+            }
         }
 
         stage('Archive') {
