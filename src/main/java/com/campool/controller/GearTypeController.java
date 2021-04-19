@@ -25,26 +25,26 @@ public class GearTypeController {
     private final GearTypeService gearTypeService;
 
     @LoginValidation
-    @GetMapping("/types")
+    @GetMapping("/gear-types")
     public List<GearType> getGearTypes() {
         return gearTypeService.getGearTypes();
     }
 
     @LoginValidation(role = Role.ADMIN)
-    @PostMapping("/types")
+    @PostMapping("/gear-types")
     public void registerGearType(@Valid GearTypeRegisterRequest gearTypeRegisterRequest) {
         gearTypeService.addGearType(gearTypeRegisterRequest.getName());
     }
 
     @LoginValidation(role = Role.ADMIN)
-    @PatchMapping("/types")
+    @PatchMapping("/gear-types")
     public void updateGearType(@Valid GearTypeUpdateRequest gearTypeUpdateRequest) {
         gearTypeService.updateByName(gearTypeUpdateRequest.getCurrentName(),
                 gearTypeUpdateRequest.getNewName());
     }
 
     @LoginValidation(role = Role.ADMIN)
-    @DeleteMapping("/types/{id}")
+    @DeleteMapping("/gear-types/{id}")
     public void deleteGearType(@PathVariable long id) {
         gearTypeService.deleteById(id);
     }

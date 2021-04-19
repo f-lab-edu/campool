@@ -30,7 +30,7 @@ class GearTypeControllerTest {
     @Test
     void registerGearTypeSuccess() throws Exception {
         this.mockMvc.perform(
-                post("/types")
+                post("/gear-types")
                         .param("name", "gearTypeName"))
                 .andExpect(status().isOk());
     }
@@ -46,7 +46,7 @@ class GearTypeControllerTest {
         String gearTypeNameOver255 = builder.toString();
 
         this.mockMvc.perform(
-                post("/types")
+                post("/gear-types")
                         .param("name", gearTypeNameOver255))
                 .andExpect(status().is4xxClientError());
     }
@@ -55,7 +55,7 @@ class GearTypeControllerTest {
     @Test
     void updateGearTypeWithoutCurrentNameHasError() throws Exception {
         this.mockMvc.perform(
-                patch("/types")
+                patch("/gear-types")
                         .param("newName", "newGearType"))
                 .andExpect(status().is4xxClientError());
     }
@@ -64,7 +64,7 @@ class GearTypeControllerTest {
     @Test
     void updateGearTypeSuccess() throws Exception {
         this.mockMvc.perform(
-                patch("/types")
+                patch("/gear-types")
                         .param("currentName", "currentGearType")
                         .param("newName", "newGearType"))
                 .andExpect(status().isOk());
@@ -73,14 +73,14 @@ class GearTypeControllerTest {
     @DisplayName("순수 정수로 변경 불가능한 ID로 삭제 요청 시 400 상태 코드를 응답")
     @Test
     void deleteGearTypeByStringHasErrors() throws Exception {
-        this.mockMvc.perform(delete("/types/gearTypeId"))
+        this.mockMvc.perform(delete("/gear-types/gearTypeId"))
                 .andExpect(status().is4xxClientError());
     }
 
     @DisplayName("정수로 변환 가능한 ID로 삭제 요청 시 200 상태 코드를 반환")
     @Test
     void deleteGearTypeByNumberSuccess() throws Exception {
-        this.mockMvc.perform(delete("/types/123"))
+        this.mockMvc.perform(delete("/gear-types/123"))
                 .andExpect(status().isOk());
     }
 
