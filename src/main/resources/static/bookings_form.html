@@ -1,0 +1,80 @@
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
+<html>
+    <button id="booking" className="booking" onClick="booking()">
+        <span>예약신청</span>
+    </button>
+</html>
+
+<script>
+    IMP.init('imp17955483');
+
+    function booking() {
+        var bookingTestParam = {
+            rentalId : 6,
+            startDate : '2021-03-21',
+            endDate : '2021-03-23'
+        };
+        $.ajax({
+            url: "/bookings?" + $.param(bookingTestParam),
+            method: "POST",
+        }).done(function (data) {
+            // 예약 생성 완료
+            requestPay(data.id, data.amount);
+        })
+    }
+
+    function requestPay(merchantUid, amount) {
+        IMP.request_pay({
+            pg: 'html5_inicis',
+            pay_method: 'card',
+            merchant_uid: merchantUid,
+            name: 'Campool 테스트 결제',
+            amount: amount,
+            buyer_email: 'liasn@naver.com',
+            buyer_name: '구매자 이름',
+            buyer_tel: '010-1234-5678',
+            buyer_addr: '서울특별시 강남구 삼성동',
+            buyer_postcode: '123-456'
+        }, function (rsp) {
+            if (rsp.success) {
+                validatePayment(rsp)
+            } else {
+                // 결제 실패
+                var msg = '결제에 실패하였습니다.';
+                msg += '에러내용 : ' + rsp.error_msg;
+                alert(msg);
+            }
+        });
+    }
+
+    function validatePayment(rsp) {
+        var validateParam = {
+            impUid : rsp.imp_uid,
+            merchantUid : rsp.merchant_uid,
+            paidAmount : rsp.paid_amount
+        }
+        $.ajax({
+            url: "/payments/validate/?" + $.param(validateParam),
+            method: "GET",
+        }).done(function (data) {
+            //결제 검증 성공
+            alert('결제가 완료되었습니다.');
+        })
+    }
+</script>
+
+<style>
+    .booking {
+        display: inline-block;
+        position: relative;
+        width: 100px;
+        height: 42px;
+        border: 1px solid #e8f1ec;
+        background-color: #c2cac1;
+        text-align: center;
+        font-family: sans-serif;
+        font-size: 14px;
+    }
+</style>
