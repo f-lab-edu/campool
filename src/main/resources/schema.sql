@@ -38,3 +38,16 @@ CREATE TABLE IF NOT EXISTS `type` (
     `id` bigint PRIMARY KEY AUTO_INCREMENT,
     `name` varchar(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS `booking` (
+    `id` bigint PRIMARY KEY AUTO_INCREMENT,
+    `rental_id` bigint NOT NULL,
+    `user_id` varchar(12) NOT NULL,
+    `status` varchar(50) NOT NULL,
+    `start_date` datetime NOT NULL,
+    `end_date` datetime NOT NULL,
+    `rental_period` int NOT NULL,
+    `cost` int default 0,
+    `amount` int default 0,
+    `create_time` timestamp
+);
