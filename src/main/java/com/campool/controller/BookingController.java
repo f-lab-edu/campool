@@ -1,6 +1,7 @@
 package com.campool.controller;
 
 import com.campool.annotation.LoginUserId;
+import com.campool.annotation.LoginValidation;
 import com.campool.model.CreateBookingRequest;
 import com.campool.model.CreateBookingResponse;
 import com.campool.service.BookingService;
@@ -17,6 +18,7 @@ public class BookingController {
     @NonNull
     private final BookingService bookingService;
 
+    @LoginValidation
     @PostMapping("/bookings")
     public CreateBookingResponse createBooking(@Valid CreateBookingRequest createBookingRequest,
             @LoginUserId String userId) {
