@@ -9,4 +9,12 @@
         VALUES
         (#{rentalId}, #{userId}, #{status}, #{startDate}, #{endDate}, #{rentalPeriod}, #{cost}, #{amount}, NOW())
     </insert>
+
+    <update id="updateStatusById">
+        UPDATE booking SET status = #{status} WHERE id = #{id};
+    </update>
+
+    <select id="selectAmountByIdAndStatus" resultType="java.lang.Integer">
+        SELECT amount FROM booking WHERE id = #{id} AND status = #{status}
+    </select>
 </mapper>
