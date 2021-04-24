@@ -5,6 +5,7 @@ import com.campool.model.Rental;
 import com.campool.model.RentalInfo;
 import com.campool.model.RentalRegisterRequest;
 import com.campool.model.RentalsRequestByLocation;
+import java.time.LocalDate;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -20,5 +21,7 @@ public interface RentalMapper {
     List<CampingGear> findGearsByRentalId(long rentalId);
 
     List<Rental> selectRentalsByLocation(RentalsRequestByLocation rentalsRequestByLocation);
+
+    Integer selectCostByIdAndDate(long id, LocalDate startDate, LocalDate endDate);
 
 }
