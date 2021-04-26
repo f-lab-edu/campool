@@ -54,7 +54,7 @@ public class BookingService {
         if (count < 0) {
             throw new IllegalArgumentException("시작 날은 종료 날보다 늦을 수 없습니다.");
         }
-        return (int)ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        return count + 1;
     }
 
 }
