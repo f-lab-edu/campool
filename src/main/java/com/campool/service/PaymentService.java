@@ -3,52 +3,38 @@ package com.campool.service;
 import com.campool.enumeration.BookingStatus;
 import com.campool.exception.IllegalPaymentAccessException;
 import com.campool.mapper.BookingMapper;
+import com.campool.model.PaymentInfo;
 import com.campool.model.ValidatePaymentRequest;
-import com.siot.IamportRestClient.IamportClient;
-import com.siot.IamportRestClient.exception.IamportResponseException;
-import com.siot.IamportRestClient.response.Payment;
-import java.io.IOException;
+import com.campool.payment.PaymentClient;
 import java.util.NoSuchElementException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class PaymentService {
 
-    @Value("${campool.iamport.api.key}")
-    private String apiKey;
-
-    @Value("${campool.iamport.api.secret}")
-    private String apiSecret;
-
     @NonNull
     private final BookingMapper bookingMapper;
 
+    @NonNull
+    private final PaymentClient paymentClient;
+
     public void validatePayment(ValidatePaymentRequest request) {
-        Payment payment = getPaymentByUid(request.getImpUid());
+        PaymentInfo payment = paymentClient.getPaymentById(request);
 
         if (isNotValidPayment(request, payment)) {
             throw new IllegalPaymentAccessException("검증 요청의 매개 변수가 불일치합니다. ");
         }
 
-        long bookingId = Long.parseLong(payment.getMerchantUid());
+        long bookingId = payment.getMerchantUid();
         int amountToBePaid = getAmountToBePaid(bookingId);
 
-        if (payment.getAmount().intValue() == amountToBePaid) { // 결제한 금액과 결제되어야 하는 금액이 일치 - 결제 성공
+        if (payment.getPaidAmount() == amountToBePaid) { // 결제한 금액과 결제되어야 하는 금액이 일치 - 결제 성공
             bookingMapper.updateStatusById(bookingId, BookingStatus.PAYMENT_COMPLETED);
         } else {
             throw new IllegalPaymentAccessException("결제 금액이 불일치합니다. ");
-        }
-    }
-
-    public Payment getPaymentByUid(String impUid) {
-        try {
-            return new IamportClient(apiKey, apiSecret).paymentByImpUid(impUid).getResponse();
-        } catch (IamportResponseException | IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -61,10 +47,10 @@ public class PaymentService {
         return amountToBePaid;
     }
 
-    public boolean isNotValidPayment(ValidatePaymentRequest request, Payment payment) {
-        return !(request.getImpUid().equals(payment.getImpUid())
-                && request.getMerchantUid() == Long.parseLong(payment.getMerchantUid())
-                && request.getPaidAmount() == payment.getAmount().intValue());
+    public boolean isNotValidPayment(ValidatePaymentRequest request, PaymentInfo payment) {
+        return !(request.getImpUid().equals(payment.getTradeId())
+                && request.getMerchantUid() == payment.getMerchantUid()
+                && request.getPaidAmount() == payment.getPaidAmount());
     }
 
 }
