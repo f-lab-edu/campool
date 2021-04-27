@@ -27,6 +27,7 @@ public class BookingService {
         int cost = getCostByIdAndDate(request.getRentalId(), request.getStartDate(), request.getEndDate());
         int rentalPeriod = getCountByDate(request.getStartDate(), request.getEndDate());
         int amount = cost * rentalPeriod;
+
         Booking booking = Booking.builder()
                 .rentalId(request.getRentalId())
                 .userId(userId)
@@ -37,7 +38,9 @@ public class BookingService {
                 .cost(cost)
                 .amount(amount)
                 .build();
+
         bookingMapper.insertBooking(booking);
+
         return new CreateBookingResponse(booking.getId(), amount);
     }
 
