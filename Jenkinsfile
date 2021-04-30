@@ -36,5 +36,26 @@ pipeline {
                 archiveArtifacts '*.jar'
             }
         }
+
+        stage('Deploy') {
+            steps {
+                sshPublisher(
+                    continueOnError: false,
+                    failOnError: true,
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: "Web001",
+                            verbose: true,
+                            transfers: [
+                                sshTransfer(
+                                    sourceFiles: "campool*.jar",
+                                    execCommand: "sh /deploy/restart_server.sh"
+                                )
+                            ]
+                        )
+                    ]
+                )
+            }
+        }
     }
 }
