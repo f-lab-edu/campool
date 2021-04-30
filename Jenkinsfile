@@ -33,12 +33,13 @@ pipeline {
 
         stage('Archive') {
             steps {
-                archiveArtifacts '*.jar'
+                archiveArtifacts 'target/*.jar'
             }
         }
 
         stage('Deploy') {
             steps {
+                sh 'mv target/*.jar .'
                 sshPublisher(
                     continueOnError: false,
                     failOnError: true,
