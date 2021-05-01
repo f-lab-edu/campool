@@ -47,7 +47,7 @@
           AND r.id = g.rental_id AND g.type=#{typeId}
           </if>
           AND #{distanceInMeters} > ST_DisTance_Sphere(POINT(#{longitude}, #{latitude}), r.location)
-    </select> // 확인
+    </select>
 
     <select id="findRentalInfoById" resultType="com.campool.model.RentalInfo">
         SELECT id AS rentalId,
@@ -68,7 +68,7 @@
         SELECT name, type AS typeId, count
         FROM gear
         WHERE rental_id = #{rentalId}
-    </select> // 풀 테이블 스캔
+    </select>
 
     <select id="selectCostByIdAndDate" resultType="java.lang.Integer">
         SELECT cost FROM rental
