@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 );
 
 CREATE TABLE IF NOT EXISTS `rental` (
-    `id` bigint PRIMARY KEY AUTO_INCREMENT,
+    `id` bigint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `title` varchar(255) NOT NULL,
     `description` varchar(255) NOT NULL,
     `status` varchar(50) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `rental` (
 );
 
 CREATE TABLE IF NOT EXISTS `gear` (
-    `rental_id` bigint,
+    `rental_id` bigint UNSIGNED,
     `name` varchar(255) NOT NULL,
     `type` bigint NOT NULL,
     `count` int default 1,
@@ -36,12 +36,12 @@ CREATE TABLE IF NOT EXISTS `gear` (
 );
 
 CREATE TABLE IF NOT EXISTS `type` (
-    `id` bigint PRIMARY KEY AUTO_INCREMENT,
+    `id` bigint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `name` varchar(255) UNIQUE KEY NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `booking` (
-    `id` bigint PRIMARY KEY AUTO_INCREMENT,
+    `id` bigint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `rental_id` bigint NOT NULL,
     `user_id` varchar(12) NOT NULL,
     `status` varchar(50) NOT NULL,
