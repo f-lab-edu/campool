@@ -22,7 +22,6 @@ public class GearTypeService {
 
     @Cacheable(value = types)
     public List<GearType> getGearTypes() {
-        System.out.println("ttt");
         return gearTypeMapper.selectGearTypes();
     }
 
