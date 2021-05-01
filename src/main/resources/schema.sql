@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `gear` (
     `rental_id` bigint,
     `name` varchar(255) NOT NULL,
     `type` bigint NOT NULL,
-    `count` int default 1
+    `count` int default 1,
+    INDEX(rental_id)
 );
 
 CREATE TABLE IF NOT EXISTS `type` (
