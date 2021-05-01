@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `gear` (
 
 CREATE TABLE IF NOT EXISTS `type` (
     `id` bigint PRIMARY KEY AUTO_INCREMENT,
-    `name` varchar(255) NOT NULL
+    `name` varchar(255) UNIQUE KEY NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS `booking` (
