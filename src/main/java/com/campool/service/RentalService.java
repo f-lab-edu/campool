@@ -18,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RentalService {
 
+    private static final double LONGITUDE_PER_METER = 0.0000113182;
+    private static final double LATITUDE_PER_METER = 0.0000089426;
+
     @NonNull
     private final RentalMapper rentalMapper;
 
@@ -51,8 +54,8 @@ public class RentalService {
     }
 
     private String getPolygonString(double longitude, double latitude, int meters) {
-        double differenceX = 0.0000113182 * meters;
-        double differenceY = 0.0000089426 * meters;
+        double differenceX = LONGITUDE_PER_METER * meters;
+        double differenceY = LATITUDE_PER_METER * meters;
 
         double X1 = longitude - differenceX;
         double X2 = longitude + differenceX;
