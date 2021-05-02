@@ -39,14 +39,14 @@
                ST_X(location) AS longitude,
                ST_Y(location) AS latitude
         FROM rental r
-        <if test="typeId != null">
+        <if test="rental.typeId != null">
         , gear g
         </if>
-        WHERE r.status = 'status1'
-          <if test="typeId != null">
-          AND r.id = g.rental_id AND g.type=#{typeId}
+        WHERE  ST_Within(r.location, ST_GeomFromText(#{polygon}))
+          AND r.status = 'status1'
+          <if test="rental.typeId != null">
+          AND r.id = g.rental_id AND g.type=#{rental.typeId}
           </if>
-          AND #{distanceInMeters} > ST_DisTance_Sphere(POINT(#{longitude}, #{latitude}), r.location)
     </select>
 
     <select id="findRentalInfoById" resultType="com.campool.model.RentalInfo">

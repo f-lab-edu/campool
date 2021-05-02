@@ -41,7 +41,30 @@ public class RentalService {
     }
 
     public List<Rental> getRentalsByLocation(RentalsRequestByLocation rentalsRequestByLocation) {
-        return rentalMapper.selectRentalsByLocation(rentalsRequestByLocation);
+        int meters = rentalsRequestByLocation.getDistanceInMeters();
+        double longitude = rentalsRequestByLocation.getLongitude();
+        double latitude = rentalsRequestByLocation.getLatitude();
+
+        String polygon = getPolygonString(longitude, latitude, meters);
+
+        return rentalMapper.selectRentalsByLocation(rentalsRequestByLocation, polygon);
+    }
+
+    private String getPolygonString(double longitude, double latitude, int meters) {
+        double differenceX = 0.0000113182 * meters;
+        double differenceY = 0.0000089426 * meters;
+
+        double X1 = longitude - differenceX;
+        double X2 = longitude + differenceX;
+        double Y1 = latitude - differenceY;
+        double Y2 = latitude + differenceY;
+
+        return "POLYGON(("
+                + X1 + " " + Y1 + ","
+                + X2 + " " + Y1 + ","
+                + X2 + " " + Y2 + ","
+                + X1 + " " + Y2 + ","
+                + X1 + " " + Y1 + "))";
     }
 
 }
