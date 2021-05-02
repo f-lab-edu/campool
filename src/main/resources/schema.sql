@@ -24,7 +24,8 @@ CREATE TABLE IF NOT EXISTS `rental` (
     `end_date` datetime NOT NULL,
     `cost` int default 0,
     `create_time` timestamp,
-    `location` point
+    `location` point NOT NULL SRID 0,
+    SPATIAL INDEX(location)
 );
 
 CREATE TABLE IF NOT EXISTS `gear` (
