@@ -6,6 +6,7 @@ import com.campool.model.Rental;
 import com.campool.model.RentalInfo;
 import com.campool.model.RentalRegisterRequest;
 import com.campool.model.RentalsRequestByLocation;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import lombok.NonNull;
@@ -18,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RentalService {
 
-    private static final double LONGITUDE_PER_METER = 0.0000113182;
-    private static final double LATITUDE_PER_METER = 0.0000089426;
+    private static final BigDecimal LONGITUDE_PER_METER = new BigDecimal("0.0000113182");
+    private static final BigDecimal LATITUDE_PER_METER = new BigDecimal("0.0000089426");
 
     @NonNull
     private final RentalMapper rentalMapper;
@@ -48,19 +49,20 @@ public class RentalService {
         double longitude = rentalsRequestByLocation.getLongitude();
         double latitude = rentalsRequestByLocation.getLatitude();
 
-        String polygon = getPolygonString(longitude, latitude, meters);
+        String polygon = getPolygonString(new BigDecimal(longitude), new BigDecimal(latitude),
+                new BigDecimal(meters));
 
         return rentalMapper.selectRentalsByLocation(rentalsRequestByLocation, polygon);
     }
 
-    private String getPolygonString(double longitude, double latitude, int meters) {
-        double differenceX = LONGITUDE_PER_METER * meters;
-        double differenceY = LATITUDE_PER_METER * meters;
+    private String getPolygonString(BigDecimal longitude, BigDecimal latitude, BigDecimal meters) {
+        BigDecimal differenceX = LONGITUDE_PER_METER.multiply(meters);
+        BigDecimal differenceY = LATITUDE_PER_METER.multiply(meters);
 
-        double X1 = longitude - differenceX;
-        double X2 = longitude + differenceX;
-        double Y1 = latitude - differenceY;
-        double Y2 = latitude + differenceY;
+        BigDecimal X1 = longitude.subtract(differenceX);
+        BigDecimal X2 = longitude.add(differenceX);
+        BigDecimal Y1 = latitude.subtract(differenceY);
+        BigDecimal Y2 = latitude.add(differenceY);
 
         return "POLYGON(("
                 + X1 + " " + Y1 + ","
