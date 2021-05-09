@@ -17,4 +17,16 @@
     <select id="selectAmountByIdAndStatus" resultType="java.lang.Integer">
         SELECT amount FROM booking WHERE id = #{id} AND status = #{status}
     </select>
+
+    <select id="findStatesByIdAndStatus" resultType="com.campool.model.BookingState">
+        SELECT b.id AS bookingId,
+               b.rental_id AS rentalId,
+               r.title AS title,
+               b.start_date AS startDate,
+               b.end_date AS endDate
+        from booking b join rental r
+            on b.rental_id = r.id
+        WHERE b.status = #{status}
+          AND b.user_id = #{id};
+    </select>
 </mapper>
