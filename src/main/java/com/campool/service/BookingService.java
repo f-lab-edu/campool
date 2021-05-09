@@ -4,10 +4,12 @@ import com.campool.enumeration.BookingStatus;
 import com.campool.mapper.BookingMapper;
 import com.campool.mapper.RentalMapper;
 import com.campool.model.Booking;
+import com.campool.model.BookingState;
 import com.campool.model.CreateBookingRequest;
 import com.campool.model.CreateBookingResponse;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.NoSuchElementException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +60,10 @@ public class BookingService {
             throw new IllegalArgumentException("시작 날은 종료 날보다 늦을 수 없습니다.");
         }
         return count + 1;
+    }
+
+    public List<BookingState> getStatesList(String id) {
+        return bookingMapper.findStatesByIdAndStatus(id, BookingStatus.PAYMENT_COMPLETED);
     }
 
 }
