@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `type` (
 
 CREATE TABLE IF NOT EXISTS `booking` (
     `id` bigint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    `rental_id` bigint NOT NULL,
+    `rental_id` bigint UNSIGNED NOT NULL,
     `user_id` varchar(12) NOT NULL,
     `status` varchar(50) NOT NULL,
     `start_date` datetime NOT NULL,
