@@ -4,6 +4,7 @@ import com.campool.enumeration.BookingStatus;
 import com.campool.mapper.BookingMapper;
 import com.campool.mapper.RentalMapper;
 import com.campool.model.Booking;
+import com.campool.model.BookingInfo;
 import com.campool.model.BookingState;
 import com.campool.model.CreateBookingRequest;
 import com.campool.model.CreateBookingResponse;
@@ -26,7 +27,8 @@ public class BookingService {
     private final RentalMapper rentalMapper;
 
     public CreateBookingResponse createBooking(CreateBookingRequest request, String userId) {
-        int cost = getCostByIdAndDate(request.getRentalId(), request.getStartDate(), request.getEndDate());
+        int cost = getCostByIdAndDate(request.getRentalId(), request.getStartDate(),
+                request.getEndDate());
         int rentalPeriod = getCountByDate(request.getStartDate(), request.getEndDate());
         int amount = cost * rentalPeriod;
 
@@ -46,6 +48,18 @@ public class BookingService {
         return new CreateBookingResponse(booking.getId(), amount);
     }
 
+    public BookingInfo getBookingInfoById(long id) {
+        BookingInfo bookingInfo = bookingMapper.findInfoById(id);
+        if (isNotValidBookingInfo(bookingInfo)) {
+            throw new NoSuchElementException("해당하는 예약 정보가 없습니다.");
+        }
+        return bookingInfo;
+    }
+
+    private boolean isNotValidBookingInfo(BookingInfo bookingInfo) {
+        return bookingInfo == null;
+    }
+
     public int getCostByIdAndDate(long rentalId, LocalDate startDate, LocalDate endDate) {
         Integer cost = rentalMapper.selectCostByIdAndDate(rentalId, startDate, endDate);
         if (cost == null) {
@@ -55,7 +69,7 @@ public class BookingService {
     }
 
     public int getCountByDate(LocalDate startDate, LocalDate endDate) {
-        int count = (int)ChronoUnit.DAYS.between(startDate, endDate);
+        int count = (int) ChronoUnit.DAYS.between(startDate, endDate);
         if (count < 0) {
             throw new IllegalArgumentException("시작 날은 종료 날보다 늦을 수 없습니다.");
         }

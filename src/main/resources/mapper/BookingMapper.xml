@@ -29,4 +29,27 @@
         WHERE b.status = #{status}
           AND b.user_id = #{id};
     </select>
+
+    <select id="findInfoById" resultType="com.campool.model.BookingInfo">
+        SELECT b.id AS bookingId,
+               b.start_date AS startDate,
+               b.end_date AS endDate,
+               b.amount AS amount,
+
+               r.id AS rentalId,
+               r.title AS title,
+               r.description AS description,
+               r.status AS rentalStatus,
+               ST_X(r.location) AS longitude,
+               ST_Y(r.location) AS latitude,
+
+               u.id AS userId,
+               u.name AS name,
+               u.email AS email,
+               u.telephone AS telephone
+        FROM booking b
+            JOIN rental r ON b.rental_id = r.id
+            JOIN user u ON b.user_id = u.id
+        WHERE b.id = #{id};
+    </select>
 </mapper>
