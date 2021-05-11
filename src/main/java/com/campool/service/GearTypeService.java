@@ -22,7 +22,7 @@ public class GearTypeService {
 
     @Cacheable(value = types)
     public List<GearType> getGearTypes() {
-        return gearTypeMapper.selectGearTypes();
+        return gearTypeMapper.findAllGearTypes();
     }
 
     @CacheEvict(value = types, allEntries = true)

@@ -24,7 +24,7 @@ public class UserService {
         if (isDuplicate(userSignUp.getId())) {
             throw new DuplicateKeyException("중복된 아이디가 존재합니다.");
         } else {
-            userMapper.insert(userSignUp.getEncryptedPasswordUserSignUp(encryptor));
+            userMapper.insertUser(userSignUp.getEncryptedPasswordUserSignUp(encryptor));
         }
     }
 

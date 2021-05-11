@@ -20,8 +20,8 @@ public interface RentalMapper {
 
     List<CampingGear> findGearsByRentalId(long rentalId);
 
-    List<Rental> selectRentalsByLocation(RentalsRequestByLocation rental, String polygon);
+    List<Rental> findRentalsByLocation(RentalsRequestByLocation rental, String polygon);
 
-    Integer selectCostByIdAndDate(long id, LocalDate startDate, LocalDate endDate);
+    Integer findCostByIdAndDate(long id, LocalDate startDate, LocalDate endDate);
 
 }

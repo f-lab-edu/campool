@@ -14,7 +14,7 @@
         UPDATE booking SET status = #{status} WHERE id = #{id};
     </update>
 
-    <select id="selectAmountByIdAndStatus" resultType="java.lang.Integer">
+    <select id="findAmountByIdAndStatus" resultType="java.lang.Integer">
         SELECT amount FROM booking WHERE id = #{id} AND status = #{status}
     </select>
 

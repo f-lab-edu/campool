@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Update;
 public interface UserMapper {
 
     @Insert("INSERT INTO USER(id, password, name, email, telephone) VALUES(#{id}, #{password}, #{name}, #{email}, #{telephone})")
-    void insert(UserSignUp userSignUp);
+    void insertUser(UserSignUp userSignUp);
 
     @Select("SELECT ID, PASSWORD, NAME, EMAIL, TELEPHONE FROM USER WHERE id = #{id}")
     UserSignUp findById(String id);
