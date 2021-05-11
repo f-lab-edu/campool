@@ -1,6 +1,7 @@
 package com.campool.service;
 
 import com.campool.enumeration.BookingStatus;
+import com.campool.enumeration.RentalStatus;
 import com.campool.mapper.BookingMapper;
 import com.campool.mapper.RentalMapper;
 import com.campool.model.Booking;
@@ -27,6 +28,7 @@ public class BookingService {
     @NonNull
     private final RentalMapper rentalMapper;
 
+    @Transactional
     public CreateBookingResponse createBooking(CreateBookingRequest request, String userId) {
         int cost = getCostByIdAndDate(request.getRentalId(), request.getStartDate(),
                 request.getEndDate());
@@ -44,6 +46,7 @@ public class BookingService {
                 .amount(amount)
                 .build();
 
+        rentalMapper.updateStatusById(request.getRentalId(), RentalStatus.TRADING);
         bookingMapper.insertBooking(booking);
 
         return new CreateBookingResponse(booking.getId(), amount);
