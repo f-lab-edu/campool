@@ -26,4 +26,6 @@ public interface RentalMapper {
 
     Integer findCostByIdAndDate(long id, LocalDate startDate, LocalDate endDate);
 
+    void updateStatusById(long id, RentalStatus status);
+
 }

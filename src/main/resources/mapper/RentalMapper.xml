@@ -76,4 +76,8 @@
         WHERE id = #{id} AND (#{startDate} BETWEEN start_date AND end_date) AND (#{endDate} BETWEEN start_date AND end_date);
         ]]>
     </select>
+
+    <update id="updateStatusById">
+        UPDATE RENTAL SET status = #{status} WHERE id = #{id}
+    </update>
 </mapper>
