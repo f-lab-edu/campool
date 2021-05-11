@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.campool.mapper.RentalMapper">
     <insert id="insertRental">
-        INSERT INTO rental
+        INSERT INTO RENTAL
             (
                 title, description, status, user_id,
                 start_date, end_date, cost,
@@ -22,7 +22,7 @@
         <selectKey keyProperty="rentalId" resultType="java.lang.Integer" order="BEFORE">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        INSERT INTO gear (rental_id, name, type, count)
+        INSERT INTO GEAR (rental_id, name, type, count)
         VALUES
         <foreach item="gear" collection="gears" separator=",">
             (#{rentalId}, #{gear.name}, #{gear.typeId}, #{gear.count})
@@ -38,9 +38,9 @@
                cost,
                ST_X(location) AS longitude,
                ST_Y(location) AS latitude
-        FROM rental r
+        FROM RENTAL r
         <if test="rental.typeId != null">
-        , gear g
+        , GEAR g
         </if>
         WHERE  ST_Within(r.location, ST_GeomFromText(#{polygon}))
           AND r.status = 'status1'
@@ -60,18 +60,18 @@
         cost,
         ST_X(location) AS longitude,
         ST_Y(location) AS latitude
-        FROM rental
+        FROM RENTAL
         WHERE id = #{id}
     </select>
 
     <select id="findGearsByRentalId" resultType="com.campool.model.CampingGear">
         SELECT name, type AS typeId, count
-        FROM gear
+        FROM GEAR
         WHERE rental_id = #{rentalId}
     </select>
 
     <select id="findCostByIdAndDate" resultType="java.lang.Integer">
-        SELECT cost FROM rental
+        SELECT cost FROM RENTAL
         <![CDATA[
         WHERE id = #{id} AND (#{startDate} BETWEEN start_date AND end_date) AND (#{endDate} BETWEEN start_date AND end_date);
         ]]>

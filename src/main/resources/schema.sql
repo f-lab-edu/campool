@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE IF NOT EXISTS `USER` (
     `id` varchar(12) PRIMARY KEY,
     `password` varchar(64) NOT NULL,
     `name` varchar(20) NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     `telephone` varchar(11)
 );
 
-CREATE TABLE IF NOT EXISTS `admin` (
+CREATE TABLE IF NOT EXISTS `ADMIN` (
     `id` varchar(12) PRIMARY KEY,
     `password` varchar(64) NOT NULL,
     `name` varchar(20) NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
     `telephone` varchar(11)
 );
 
-CREATE TABLE IF NOT EXISTS `rental` (
+CREATE TABLE IF NOT EXISTS `RENTAL` (
     `id` bigint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `title` varchar(255) NOT NULL,
     `description` varchar(255) NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `rental` (
     SPATIAL INDEX(location)
 );
 
-CREATE TABLE IF NOT EXISTS `gear` (
+CREATE TABLE IF NOT EXISTS `GEAR` (
     `rental_id` bigint UNSIGNED,
     `name` varchar(255) NOT NULL,
     `type` bigint NOT NULL,
@@ -36,12 +36,12 @@ CREATE TABLE IF NOT EXISTS `gear` (
     INDEX(rental_id)
 );
 
-CREATE TABLE IF NOT EXISTS `type` (
+CREATE TABLE IF NOT EXISTS `TYPE` (
     `id` bigint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `name` varchar(255) UNIQUE KEY NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS `booking` (
+CREATE TABLE IF NOT EXISTS `BOOKING` (
     `id` bigint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `rental_id` bigint UNSIGNED NOT NULL,
     `user_id` varchar(12) NOT NULL,
