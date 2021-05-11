@@ -13,16 +13,16 @@ public interface UserMapper {
     @Insert("INSERT INTO USER(id, password, name, email, telephone) VALUES(#{id}, #{password}, #{name}, #{email}, #{telephone})")
     void insertUser(UserSignUp userSignUp);
 
-    @Select("SELECT ID, PASSWORD, NAME, EMAIL, TELEPHONE FROM USER WHERE id = #{id}")
+    @Select("SELECT id, password, name, email, telephone FROM USER WHERE id = #{id}")
     UserSignUp findById(String id);
 
-    @Select("SELECT ID, PASSWORD, NAME, EMAIL, TELEPHONE FROM USER WHERE id = #{id} AND password = #{password}")
+    @Select("SELECT id, password, name, email, telephone FROM USER WHERE id = #{id} AND password = #{password}")
     UserSignUp findByIdAndPassword(String id, String password);
 
-    @Update("UPDATE USER SET PASSWORD = #{password}, NAME = #{name}, EMAIL = #{email}, TELEPHONE = #{telephone} WHERE ID = #{id} ")
+    @Update("UPDATE USER SET password = #{password}, name = #{name}, email = #{email}, telephone = #{telephone} WHERE id = #{id} ")
     void updateById(String id, String password, String name, String email, String telephone);
 
-    @Delete("DELETE FROM USER WHERE ID = #{id}")
+    @Delete("DELETE FROM USER WHERE id = #{id}")
     void deleteById(String id);
 
 }
