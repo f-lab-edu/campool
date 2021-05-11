@@ -29,7 +29,7 @@
         </foreach>
     </insert>
 
-    <select id="selectRentalsByLocation" resultType="com.campool.model.Rental">
+    <select id="findRentalsByLocation" resultType="com.campool.model.Rental">
         SELECT id AS rentalId,
                title,
                user_id AS userId,
@@ -70,7 +70,7 @@
         WHERE rental_id = #{rentalId}
     </select>
 
-    <select id="selectCostByIdAndDate" resultType="java.lang.Integer">
+    <select id="findCostByIdAndDate" resultType="java.lang.Integer">
         SELECT cost FROM rental
         <![CDATA[
         WHERE id = #{id} AND (#{startDate} BETWEEN start_date AND end_date) AND (#{endDate} BETWEEN start_date AND end_date);

@@ -40,7 +40,7 @@ public class PaymentService {
 
     public int getAmountToBePaid(long id) {
         Integer amountToBePaid = bookingMapper
-                .selectAmountByIdAndStatus(id, BookingStatus.PAYMENT_PENDING);
+                .findAmountByIdAndStatus(id, BookingStatus.PAYMENT_PENDING);
         if (amountToBePaid == null) {
             throw new NoSuchElementException("결제가 필요한 예약 데이터가 존재하지 않습니다.");
         }

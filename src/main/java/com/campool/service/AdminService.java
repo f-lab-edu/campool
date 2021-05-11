@@ -23,7 +23,7 @@ public class AdminService {
         if (isDuplicate(adminSignUp.getId())) {
             throw new DuplicateKeyException("중복된 아이디가 존재합니다.");
         }
-        adminMapper.insert(adminSignUp.getEncryptedPasswordUserSignUp(encryptor));
+        adminMapper.insertAdmin(adminSignUp.getEncryptedPasswordUserSignUp(encryptor));
     }
 
     public boolean isDuplicate(String id) {

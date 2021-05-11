@@ -61,7 +61,7 @@ public class BookingService {
     }
 
     public int getCostByIdAndDate(long rentalId, LocalDate startDate, LocalDate endDate) {
-        Integer cost = rentalMapper.selectCostByIdAndDate(rentalId, startDate, endDate);
+        Integer cost = rentalMapper.findCostByIdAndDate(rentalId, startDate, endDate);
         if (cost == null) {
             throw new NoSuchElementException("유효하지 않은 날짜이거나 물품입니다.");
         }

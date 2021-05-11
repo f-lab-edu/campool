@@ -14,7 +14,7 @@ public interface BookingMapper {
 
     void updateStatusById(long id, BookingStatus status);
 
-    Integer selectAmountByIdAndStatus(long id, BookingStatus status);
+    Integer findAmountByIdAndStatus(long id, BookingStatus status);
 
     List<BookingState> findStatesByIdAndStatus(String id, BookingStatus status);
 

@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 public interface AdminMapper {
 
     @Insert("INSERT INTO ADMIN(id, password, name, email, telephone) VALUES(#{id}, #{password}, #{name}, #{email}, #{telephone})")
-    void insert(AdminSignUp adminSignUp);
+    void insertAdmin(AdminSignUp adminSignUp);
 
     @Select("SELECT ID, PASSWORD, NAME, EMAIL, TELEPHONE FROM ADMIN WHERE id = #{id}")
     AdminSignUp findById(String id);

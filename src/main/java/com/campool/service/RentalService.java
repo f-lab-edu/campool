@@ -52,7 +52,7 @@ public class RentalService {
         String polygon = getPolygonString(new BigDecimal(longitude), new BigDecimal(latitude),
                 new BigDecimal(meters));
 
-        return rentalMapper.selectRentalsByLocation(rentalsRequestByLocation, polygon);
+        return rentalMapper.findRentalsByLocation(rentalsRequestByLocation, polygon);
     }
 
     private String getPolygonString(BigDecimal longitude, BigDecimal latitude, BigDecimal meters) {
