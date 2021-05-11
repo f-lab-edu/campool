@@ -1,5 +1,6 @@
 package com.campool.service;
 
+import com.campool.enumeration.RentalStatus;
 import com.campool.mapper.RentalMapper;
 import com.campool.model.CampingGear;
 import com.campool.model.Rental;
@@ -28,7 +29,7 @@ public class RentalService {
     @Transactional
     public void register(String userId, RentalRegisterRequest rentalRegisterRequest,
             List<CampingGear> gears) {
-        rentalMapper.insertRental(userId, rentalRegisterRequest);
+        rentalMapper.insertRental(userId, rentalRegisterRequest, RentalStatus.TRADEABLE);
         rentalMapper.insertGears(gears);
     }
 
@@ -52,7 +53,8 @@ public class RentalService {
         String polygon = getPolygonString(new BigDecimal(longitude), new BigDecimal(latitude),
                 new BigDecimal(meters));
 
-        return rentalMapper.findRentalsByLocation(rentalsRequestByLocation, polygon);
+        return rentalMapper
+                .findRentalsByLocation(rentalsRequestByLocation, RentalStatus.TRADEABLE, polygon);
     }
 
     private String getPolygonString(BigDecimal longitude, BigDecimal latitude, BigDecimal meters) {

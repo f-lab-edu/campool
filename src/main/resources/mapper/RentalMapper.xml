@@ -12,7 +12,7 @@
             )
         VALUES
             (
-                #{rental.title}, #{rental.description}, 'status1', #{userId},
+                #{rental.title}, #{rental.description}, #{status}, #{userId},
                 #{rental.startDate}, #{rental.endDate}, #{rental.cost},
                 NOW(), POINT(#{rental.longitude}, #{rental.latitude})
             )
@@ -43,7 +43,7 @@
         , GEAR g
         </if>
         WHERE  ST_Within(r.location, ST_GeomFromText(#{polygon}))
-          AND r.status = 'status1'
+          AND r.status = #{status}
           <if test="rental.typeId != null">
           AND r.id = g.rental_id AND g.type=#{rental.typeId}
           </if>

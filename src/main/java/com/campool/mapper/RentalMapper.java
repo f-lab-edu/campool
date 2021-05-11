@@ -1,5 +1,6 @@
 package com.campool.mapper;
 
+import com.campool.enumeration.RentalStatus;
 import com.campool.model.CampingGear;
 import com.campool.model.Rental;
 import com.campool.model.RentalInfo;
@@ -12,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface RentalMapper {
 
-    void insertRental(String userId, RentalRegisterRequest rental);
+    void insertRental(String userId, RentalRegisterRequest rental, RentalStatus status);
 
     void insertGears(List<CampingGear> gears);
 
@@ -20,7 +21,8 @@ public interface RentalMapper {
 
     List<CampingGear> findGearsByRentalId(long rentalId);
 
-    List<Rental> findRentalsByLocation(RentalsRequestByLocation rental, String polygon);
+    List<Rental> findRentalsByLocation(RentalsRequestByLocation rental, RentalStatus status,
+            String polygon);
 
     Integer findCostByIdAndDate(long id, LocalDate startDate, LocalDate endDate);
 
