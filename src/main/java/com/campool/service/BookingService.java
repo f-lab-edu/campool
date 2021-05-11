@@ -15,6 +15,7 @@ import java.util.NoSuchElementException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -48,6 +49,7 @@ public class BookingService {
         return new CreateBookingResponse(booking.getId(), amount);
     }
 
+    @Transactional(readOnly = true)
     public BookingInfo getBookingInfoById(long id) {
         BookingInfo bookingInfo = bookingMapper.findInfoById(id);
         if (isNotValidBookingInfo(bookingInfo)) {
@@ -76,6 +78,7 @@ public class BookingService {
         return count + 1;
     }
 
+    @Transactional(readOnly = true)
     public List<BookingState> getStatesList(String id) {
         return bookingMapper.findStatesByIdAndStatus(id, BookingStatus.PAYMENT_COMPLETED);
     }
