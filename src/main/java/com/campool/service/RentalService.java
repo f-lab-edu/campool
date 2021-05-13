@@ -74,4 +74,16 @@ public class RentalService {
                 + X1 + " " + Y1 + "))";
     }
 
+    @Transactional
+    public void updateStatusToRented(long id) {
+        RentalInfo rentalInfo = getRentalById(id);
+        String status = rentalInfo.getStatus();
+
+        if (RentalStatus.TRADING.equals(RentalStatus.valueOf(status))) {
+            rentalMapper.updateStatusById(id, RentalStatus.RENTED);
+        } else {
+            throw new IllegalStateException("거래 중인 용품이 아닙니다.");
+        }
+    }
+
 }

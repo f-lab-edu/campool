@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,6 +47,12 @@ public class RentalController {
         RentalInfo rentalInfo = rentalService.getRentalById(id);
         List<CampingGear> gears = rentalService.getGearsByRentalId(id);
         return new RentalDetailsResponse(rentalInfo, gears);
+    }
+
+    @LoginValidation
+    @PatchMapping("/rentals/{id}")
+    public void updateStatusToRented(@PathVariable long id) {
+        rentalService.updateStatusToRented(id);
     }
 
 }
