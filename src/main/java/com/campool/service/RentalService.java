@@ -75,12 +75,12 @@ public class RentalService {
     }
 
     @Transactional
-    public void updateStatusToRented(long id) {
-        RentalInfo rentalInfo = getRentalById(id);
-        String status = rentalInfo.getStatus();
+    public void updateStatusToRented(long rentalId, String userId) {
+        RentalInfo rentalInfo = getRentalById(rentalId);
 
-        if (RentalStatus.TRADING.equals(RentalStatus.valueOf(status))) {
-            rentalMapper.updateStatusById(id, RentalStatus.RENTED);
+        if (RentalStatus.TRADING.equals(RentalStatus.valueOf(rentalInfo.getStatus())) &&
+                userId.equals(rentalInfo.getUserId())) {
+            rentalMapper.updateStatusById(rentalId, RentalStatus.RENTED);
         } else {
             throw new IllegalStateException("거래 중인 용품이 아닙니다.");
         }

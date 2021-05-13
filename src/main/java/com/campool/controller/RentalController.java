@@ -50,9 +50,9 @@ public class RentalController {
     }
 
     @LoginValidation
-    @PatchMapping("/rentals/{id}")
-    public void updateStatusToRented(@PathVariable long id) {
-        rentalService.updateStatusToRented(id);
+    @PatchMapping("/rentals/{rentalId}")
+    public void updateStatusToRented(@PathVariable long rentalId, @LoginUserId String userId) {
+        rentalService.updateStatusToRented(rentalId, userId);
     }
 
 }
