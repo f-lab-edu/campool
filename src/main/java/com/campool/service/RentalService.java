@@ -79,16 +79,30 @@ public class RentalService {
                 + X1 + " " + Y1 + "))";
     }
 
-    @Transactional
     public void updateStatusToRented(long rentalId, String userId) {
-        RentalInfo rentalInfo = getRentalById(rentalId);
+        updateNewStatus(RentalStatus.TRADING, RentalStatus.RENTED, rentalId, userId);
+    }
 
-        if (rentalInfo.getStatus().equals(RentalStatus.TRADING)
-                && rentalInfo.getUserId().equals(userId)) {
-            rentalMapper.updateStatusById(rentalId, RentalStatus.RENTED);
+    public void completeRental(long rentalId, BookingInfo bookingInfo, String userId) {
+        if (rentalId == bookingInfo.getRentalId() && userId.equals(bookingInfo.getUserId())) {
+            updateNewStatus(RentalStatus.RENTED, RentalStatus.TRADE_COMPLETED, rentalId, userId);
         } else {
-            throw new IllegalStateException("거래 중인 용품이 아닙니다.");
+            throw new IllegalArgumentException("유효하지 않는 요청입니다.");
         }
+    }
+
+    @Transactional
+    public void updateNewStatus(RentalStatus currentStatus, RentalStatus newStatus, long rentalId,
+            String userId) {
+        if (isValidRentalStatus(getRentalById(rentalId), currentStatus, userId)) {
+            rentalMapper.updateStatusById(rentalId, newStatus);
+        } else {
+            throw new IllegalStateException(currentStatus.getMessage() + "인 상태가 아닙니다.");
+        }
+    }
+
+    private boolean isValidRentalStatus(RentalInfo rentalInfo, RentalStatus status, String userId) {
+        return rentalInfo.getStatus().equals(status) && rentalInfo.getUserId().equals(userId);
     }
 
 }
