@@ -1,7 +1,9 @@
 package com.campool.service;
 
 import com.campool.enumeration.RentalStatus;
+import com.campool.mapper.BookingMapper;
 import com.campool.mapper.RentalMapper;
+import com.campool.model.BookingInfo;
 import com.campool.model.CampingGear;
 import com.campool.model.Rental;
 import com.campool.model.RentalInfo;
@@ -25,6 +27,9 @@ public class RentalService {
 
     @NonNull
     private final RentalMapper rentalMapper;
+
+    @NonNull
+    private final BookingMapper bookingMapper;
 
     @Transactional
     public void register(String userId, RentalRegisterRequest rentalRegisterRequest,
@@ -78,8 +83,8 @@ public class RentalService {
     public void updateStatusToRented(long rentalId, String userId) {
         RentalInfo rentalInfo = getRentalById(rentalId);
 
-        if (RentalStatus.TRADING.equals(RentalStatus.valueOf(rentalInfo.getStatus())) &&
-                userId.equals(rentalInfo.getUserId())) {
+        if (rentalInfo.getStatus().equals(RentalStatus.TRADING)
+                && rentalInfo.getUserId().equals(userId)) {
             rentalMapper.updateStatusById(rentalId, RentalStatus.RENTED);
         } else {
             throw new IllegalStateException("거래 중인 용품이 아닙니다.");
