@@ -60,7 +60,7 @@ public class SessionAuthService implements AuthService {
     }
 
     private boolean isAdmin(Role role) {
-        return role.equals(Role.ADMIN);
+        return role == Role.ADMIN;
     }
 
 }
