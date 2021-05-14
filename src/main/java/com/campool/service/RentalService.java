@@ -80,11 +80,11 @@ public class RentalService {
     }
 
     public void completeRental(long rentalId, BookingInfo bookingInfo, String userId) {
-        if (rentalId == bookingInfo.getRentalId() && userId.equals(bookingInfo.getUserId())) {
-            updateNewStatus(RentalStatus.RENTED, RentalStatus.TRADE_COMPLETED, rentalId, userId);
-        } else {
+        if (rentalId != bookingInfo.getRentalId() || !userId.equals(bookingInfo.getUserId())) {
             throw new IllegalArgumentException("유효하지 않는 요청입니다.");
         }
+
+        updateNewStatus(RentalStatus.RENTED, RentalStatus.TRADE_COMPLETED, rentalId, userId);
     }
 
     @Transactional
