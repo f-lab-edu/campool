@@ -1,7 +1,6 @@
 package com.campool.service;
 
 import com.campool.enumeration.RentalStatus;
-import com.campool.mapper.BookingMapper;
 import com.campool.mapper.RentalMapper;
 import com.campool.model.BookingInfo;
 import com.campool.model.CampingGear;
@@ -27,9 +26,6 @@ public class RentalService {
 
     @NonNull
     private final RentalMapper rentalMapper;
-
-    @NonNull
-    private final BookingMapper bookingMapper;
 
     @Transactional
     public void register(String userId, RentalRegisterRequest rentalRegisterRequest,
