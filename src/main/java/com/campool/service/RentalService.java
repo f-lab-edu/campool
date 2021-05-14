@@ -90,11 +90,11 @@ public class RentalService {
     @Transactional
     public void updateNewStatus(RentalStatus currentStatus, RentalStatus newStatus, long rentalId,
             String userId) {
-        if (isValidRentalStatus(getRentalById(rentalId), currentStatus, userId)) {
-            rentalMapper.updateStatusById(rentalId, newStatus);
-        } else {
+        if (!isValidRentalStatus(getRentalById(rentalId), currentStatus, userId)) {
             throw new IllegalStateException(currentStatus.getMessage() + "인 상태가 아닙니다.");
         }
+
+        rentalMapper.updateStatusById(rentalId, newStatus);
     }
 
     private boolean isValidRentalStatus(RentalInfo rentalInfo, RentalStatus status, String userId) {
