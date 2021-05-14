@@ -102,7 +102,7 @@ public class RentalService {
     }
 
     private boolean isValidRentalStatus(RentalInfo rentalInfo, RentalStatus status, String userId) {
-        return rentalInfo.getStatus().equals(status) && rentalInfo.getUserId().equals(userId);
+        return rentalInfo.getStatus() == status && rentalInfo.getUserId().equals(userId);
     }
 
 }
