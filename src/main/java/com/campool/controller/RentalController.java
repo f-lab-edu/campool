@@ -57,7 +57,7 @@ public class RentalController {
     }
 
     @LoginValidation
-    @PatchMapping("/rentals/rent/{rentalId}")
+    @PatchMapping("/rentals/{rentalId}/rent")
     public void rentCampingGears(@PathVariable long rentalId, @LoginUserId String userId) {
         rentalService.updateStatusToRented(rentalId, userId);
     }
