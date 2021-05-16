@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @RequiredArgsConstructor
@@ -21,10 +20,8 @@ public class RentalInfo {
 
     private final String userId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private final LocalDate startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private final LocalDate endDate;
 
     private final int cost;
