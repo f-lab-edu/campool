@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @RequiredArgsConstructor
@@ -14,10 +13,8 @@ public class BookingInfo {
 
     private final long bookingId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private final LocalDate startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private final LocalDate endDate;
 
     private final int amount;
