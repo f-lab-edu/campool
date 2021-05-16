@@ -28,4 +28,6 @@ public interface RentalMapper {
 
     void updateStatusById(long id, RentalStatus status);
 
+    void deleteById(long id);
+
 }

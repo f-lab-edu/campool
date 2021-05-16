@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,6 +69,12 @@ public class RentalController {
     public void completeRental(@Valid RentalCompleteRequest request, @LoginUserId String userId) {
         BookingInfo bookingInfo = bookingService.getBookingInfoById(request.getBookingId());
         rentalService.completeRental(request.getRentalId(), bookingInfo, userId);
+    }
+
+    @LoginValidation
+    @DeleteMapping("/rentals/{rentalId}")
+    public void deleteRental(@PathVariable long rentalId, @LoginUserId String userId) {
+        rentalService.deleteRental(rentalId, userId);
     }
 
 }
