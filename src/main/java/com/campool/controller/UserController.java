@@ -1,10 +1,11 @@
 package com.campool.controller;
 
 import com.campool.annotation.LoginUserId;
+import com.campool.model.UserInfo;
 import com.campool.model.UserUpdateRequest;
 import com.campool.annotation.LoginValidation;
 import com.campool.model.UserLoginRequest;
-import com.campool.model.UserSignUp;
+import com.campool.model.UserSignUpRequest;
 import com.campool.service.AuthService;
 import com.campool.service.UserService;
 import javax.validation.Valid;
@@ -27,13 +28,19 @@ public class UserController {
     private final AuthService authService;
 
     @PostMapping("/users")
-    public void signUpUser(@Valid UserSignUp userSignUp) {
-        userService.add(userSignUp);
+    public void signUpUser(@Valid UserSignUpRequest userSignUpRequest) {
+        userService.add(userSignUpRequest);
     }
 
     @PostMapping("/users/login")
     public void loginUser(@Valid UserLoginRequest userLoginRequest) {
         authService.authenticate(userLoginRequest);
+    }
+
+    @LoginValidation
+    @GetMapping("/users")
+    public UserInfo getUserInfo(@LoginUserId String id) {
+        return userService.getUserInfoById(id);
     }
 
     @LoginValidation
