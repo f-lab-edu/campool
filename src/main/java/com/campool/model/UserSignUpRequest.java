@@ -12,7 +12,7 @@ import lombok.ToString;
 @Getter
 @RequiredArgsConstructor
 @ToString
-public class UserSignUp {
+public class UserSignUpRequest {
 
     @NotBlank(message = "아이디를 입력해주세요.")
     @Size(max = 12, message = "최대 12자리까지 입력 가능합니다.")
@@ -35,8 +35,8 @@ public class UserSignUp {
     @Pattern(regexp = "[0-9]{10,11}", message = "- 을 제외한 숫자 10자리 또는 11자리를 입력해주세요.")
     private final String telephone;
 
-    public UserSignUp getEncryptedPasswordUserSignUp(Encryptor encryptor) {
-        return new UserSignUp(this.id, encryptor.encrypt(this.password),
+    public UserSignUpRequest getEncryptedPasswordUserSignUp(Encryptor encryptor) {
+        return new UserSignUpRequest(this.id, encryptor.encrypt(this.password),
                 this.name, this.email, this.telephone);
     }
 

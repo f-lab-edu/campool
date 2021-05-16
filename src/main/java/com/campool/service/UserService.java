@@ -3,7 +3,8 @@ package com.campool.service;
 import com.campool.encrypt.Encryptor;
 import com.campool.exception.NoSuchUserException;
 import com.campool.mapper.UserMapper;
-import com.campool.model.UserSignUp;
+import com.campool.model.UserInfo;
+import com.campool.model.UserSignUpRequest;
 import com.campool.model.UserUpdateRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,11 @@ public class UserService {
     @NonNull
     private final Encryptor encryptor;
 
-    public void add(UserSignUp userSignUp) {
-        if (isDuplicate(userSignUp.getId())) {
+    public void add(UserSignUpRequest userSignUpRequest) {
+        if (isDuplicate(userSignUpRequest.getId())) {
             throw new DuplicateKeyException("중복된 아이디가 존재합니다.");
         } else {
-            userMapper.insertUser(userSignUp.getEncryptedPasswordUserSignUp(encryptor));
+            userMapper.insertUser(userSignUpRequest.getEncryptedPasswordUserSignUp(encryptor));
         }
     }
 
@@ -32,17 +33,21 @@ public class UserService {
         return userMapper.findById(id) != null;
     }
 
-    public UserSignUp getByIdAndPw(String id, String password) {
-        UserSignUp userSignUp = userMapper.findByIdAndPassword(id, encryptor.encrypt(password));
-        if (isValidUser(userSignUp)) {
-            return userSignUp;
+    public UserInfo getUserInfoById(String id) {
+        return userMapper.findById(id);
+    }
+
+    public UserInfo getByIdAndPw(String id, String password) {
+        UserInfo userInfo = userMapper.findByIdAndPassword(id, encryptor.encrypt(password));
+        if (isValidUser(userInfo)) {
+            return userInfo;
         } else {
             throw new NoSuchUserException("해당하는 사용자 정보가 없습니다.");
         }
     }
 
-    private boolean isValidUser(UserSignUp userSignUp) {
-        return userSignUp != null;
+    private boolean isValidUser(UserInfo userInfo) {
+        return userInfo != null;
     }
 
     public void updateById(String id, UserUpdateRequest userUpdateRequest) {
