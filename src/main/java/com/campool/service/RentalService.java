@@ -101,4 +101,14 @@ public class RentalService {
         return rentalInfo.getStatus() == status && rentalInfo.getUserId().equals(userId);
     }
 
+    @Transactional
+    public void deleteRental(long rentalId, String userId) {
+        RentalInfo rentalInfo = rentalMapper.findRentalInfoById(rentalId);
+        if (rentalInfo.getStatus() != RentalStatus.TRADEABLE
+                || !rentalInfo.getUserId().equals(userId)) {
+            throw new IllegalStateException("본인이 등록하고 거래 가능 상태일 때만 삭제할 수 있습니다.");
+        }
+        rentalMapper.deleteById(rentalId);
+    }
+
 }

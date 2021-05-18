@@ -80,4 +80,8 @@
     <update id="updateStatusById">
         UPDATE RENTAL SET status = #{status} WHERE id = #{id}
     </update>
+
+    <delete id="deleteById">
+        DELETE r, g FROM RENTAL r JOIN GEAR g ON g.rental_id = r.id WHERE id = #{id};
+    </delete>
 </mapper>
