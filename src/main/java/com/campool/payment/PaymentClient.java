@@ -7,4 +7,6 @@ public interface PaymentClient {
 
     PaymentInfo getPaymentById(ValidatePaymentRequest request);
 
+    void cancelPaymentById(String id);
+
 }

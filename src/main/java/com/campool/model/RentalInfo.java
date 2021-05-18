@@ -1,5 +1,6 @@
 package com.campool.model;
 
+import com.campool.enumeration.RentalStatus;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class RentalInfo {
 
     private final String description;
 
-    private final String status;
+    private final RentalStatus status;
 
     private final String userId;
 

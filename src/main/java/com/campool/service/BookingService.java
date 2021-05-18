@@ -7,6 +7,7 @@ import com.campool.mapper.RentalMapper;
 import com.campool.model.Booking;
 import com.campool.model.BookingInfo;
 import com.campool.model.BookingState;
+import com.campool.model.CancelPaymentRequest;
 import com.campool.model.CreateBookingRequest;
 import com.campool.model.CreateBookingResponse;
 import java.time.LocalDate;
@@ -84,6 +85,26 @@ public class BookingService {
     @Transactional(readOnly = true)
     public List<BookingState> getStatesList(String id) {
         return bookingMapper.findStatesByIdAndStatus(id, BookingStatus.PAYMENT_COMPLETED);
+    }
+
+    public void validateCancelRequest(CancelPaymentRequest request, String id) {
+        BookingInfo bookingInfo = getBookingInfoById(request.getMerchantUid());
+        if (isNotValidAmount(bookingInfo, request.getPaidAmount()) || isNotTradeable(bookingInfo)
+                || isNotRentalOwner(bookingInfo, id)) {
+            throw new IllegalArgumentException("취소할 수 없는 예약입니다.");
+        }
+    }
+
+    private boolean isNotValidAmount(BookingInfo bookingInfo, int amount) {
+        return bookingInfo.getAmount() != amount;
+    }
+
+    private boolean isNotTradeable(BookingInfo bookingInfo) {
+        return bookingInfo.getRentalStatus() != RentalStatus.TRADEABLE;
+    }
+
+    private boolean isNotRentalOwner(BookingInfo bookingInfo, String id) {
+        return !bookingInfo.getUserId().equals(id);
     }
 
 }

@@ -53,4 +53,8 @@ public class PaymentService {
                 && request.getPaidAmount() == payment.getPaidAmount());
     }
 
+    public void cancelPayment(long id) {
+        paymentClient.cancelPaymentById(String.valueOf(id));
+    }
+
 }

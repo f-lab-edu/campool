@@ -2,6 +2,7 @@ package com.campool.service;
 
 import com.campool.enumeration.RentalStatus;
 import com.campool.mapper.RentalMapper;
+import com.campool.model.BookingInfo;
 import com.campool.model.CampingGear;
 import com.campool.model.Rental;
 import com.campool.model.RentalInfo;
@@ -72,6 +73,42 @@ public class RentalService {
                 + X2 + " " + Y2 + ","
                 + X1 + " " + Y2 + ","
                 + X1 + " " + Y1 + "))";
+    }
+
+    public void updateStatusToRented(long rentalId, String userId) {
+        updateNewStatus(RentalStatus.TRADING, RentalStatus.RENTED, rentalId, userId);
+    }
+
+    public void completeRental(long rentalId, BookingInfo bookingInfo, String userId) {
+        if (rentalId != bookingInfo.getRentalId() || !userId.equals(bookingInfo.getUserId())) {
+            throw new IllegalArgumentException("유효하지 않는 요청입니다.");
+        }
+
+        updateNewStatus(RentalStatus.RENTED, RentalStatus.TRADE_COMPLETED, rentalId, userId);
+    }
+
+    @Transactional
+    public void updateNewStatus(RentalStatus currentStatus, RentalStatus newStatus, long rentalId,
+            String userId) {
+        if (!isValidRentalStatus(getRentalById(rentalId), currentStatus, userId)) {
+            throw new IllegalStateException(currentStatus.getMessage() + "인 상태가 아닙니다.");
+        }
+
+        rentalMapper.updateStatusById(rentalId, newStatus);
+    }
+
+    private boolean isValidRentalStatus(RentalInfo rentalInfo, RentalStatus status, String userId) {
+        return rentalInfo.getStatus() == status && rentalInfo.getUserId().equals(userId);
+    }
+
+    @Transactional
+    public void deleteRental(long rentalId, String userId) {
+        RentalInfo rentalInfo = rentalMapper.findRentalInfoById(rentalId);
+        if (rentalInfo.getStatus() != RentalStatus.TRADEABLE
+                || !rentalInfo.getUserId().equals(userId)) {
+            throw new IllegalStateException("본인이 등록하고 거래 가능 상태일 때만 삭제할 수 있습니다.");
+        }
+        rentalMapper.deleteById(rentalId);
     }
 
 }

@@ -6,14 +6,17 @@ import com.campool.model.BookingDetailsResponse;
 import com.campool.model.BookingInfo;
 import com.campool.model.BookingState;
 import com.campool.model.CampingGear;
+import com.campool.model.CancelPaymentRequest;
 import com.campool.model.CreateBookingRequest;
 import com.campool.model.CreateBookingResponse;
 import com.campool.service.BookingService;
+import com.campool.service.PaymentService;
 import com.campool.service.RentalService;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +31,9 @@ public class BookingController {
 
     @NonNull
     private final RentalService rentalService;
+
+    @NonNull
+    private final PaymentService paymentService;
 
     @LoginValidation
     @PostMapping("/bookings")
@@ -47,6 +53,14 @@ public class BookingController {
     @GetMapping("/bookings")
     public List<BookingState> getBookingStates(@LoginUserId String id) {
         return bookingService.getStatesList(id);
+    }
+
+    @LoginValidation
+    @GetMapping("/bookings/cancel")
+    @Transactional
+    public void cancelBooking(@Valid CancelPaymentRequest cancelRequest, @LoginUserId String id) {
+        bookingService.validateCancelRequest(cancelRequest, id);
+        paymentService.cancelPayment(cancelRequest.getMerchantUid());
     }
 
 }
