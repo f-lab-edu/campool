@@ -3,6 +3,9 @@ pipeline {
     tools {
         maven "M3"
     }
+    environment {
+        private_registry = 'http://10.41.4.197:5000'
+    }
 
     stages {
         stage('Check out') {
@@ -37,6 +40,16 @@ pipeline {
             }
         }
 
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry(private_registry) {
+                        docker.build('campool-web-server').push('latest')
+                    }
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
                 sh 'mv target/*.jar .'
@@ -49,8 +62,8 @@ pipeline {
                             verbose: true,
                             transfers: [
                                 sshTransfer(
-                                    sourceFiles: "campool*.jar",
-                                    execCommand: "sh /deploy/restart_server.sh"
+                                    sourceFiles: "",
+                                    execCommand: "sh /deploy/pull_and_restart_server.sh"
                                 )
                             ]
                         )
