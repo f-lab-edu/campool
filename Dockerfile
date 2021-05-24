@@ -3,4 +3,4 @@ EXPOSE 8080
 
 ADD target/campool-0.0.1-SNAPSHOT.jar webapp.jar
 
-CMD java $JAVA_OPTIONS -jar /webapp.jar
+ENTRYPOINT java $JAVA_OPTIONS -jar /webapp.jar
