@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @LoginValidation
-    @GetMapping("/users")
+    @GetMapping("/my-infos")
     public UserInfo getUserInfo(@LoginUserId String id) {
         return userService.getUserInfoById(id);
     }
