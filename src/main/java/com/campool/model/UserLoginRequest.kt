@@ -1,15 +1,10 @@
-package com.campool.model;
+package com.campool.model
 
-import com.campool.enumeration.Role;
+import com.campool.enumeration.Role
 
-public class UserLoginRequest extends LoginRequest {
-
-    public UserLoginRequest(String id, String password) {
-        super(id, password);
-    }
-
-    @Override
-    public Role getRole() {
-        return Role.USER;
-    }
+class UserLoginRequest(
+    id: String,
+    password: String
+) : LoginRequest(id, password) {
+    override val role = Role.USER
 }

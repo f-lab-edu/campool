@@ -1,43 +1,36 @@
-package com.campool.model;
+package com.campool.model
 
-import com.campool.encrypt.Encryptor;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import com.campool.encrypt.Encryptor
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
 
-@Getter
-@RequiredArgsConstructor
-@ToString
-public class UserSignUpRequest {
+class UserSignUpRequest(
 
-    @NotBlank(message = "아이디를 입력해주세요.")
-    @Size(max = 12, message = "최대 12자리까지 입력 가능합니다.")
-    private final String id;
+    @field:NotBlank(message = "아이디를 입력해주세요.")
+    @field:Size(max = 12, message = "최대 12자리까지 입력 가능합니다.")
+    val id: String,
 
-    @NotBlank(message = "비밀번호를 입력해주세요.")
-    @Size(max = 20, message = "최대 20자리까지 입력 가능합니다.")
-    private final String password;
+    @field:NotBlank(message = "비밀번호를 입력해주세요.")
+    @field:Size(max = 20, message = "최대 20자리까지 입력 가능합니다.")
+    val password: String,
 
-    @NotBlank(message = "이름을 입력해주세요.")
-    @Size(max = 20, message = "최대 20자리까지 입력 가능합니다.")
-    private final String name;
+    @field:NotBlank(message = "이름을 입력해주세요.")
+    @field:Size(max = 20, message = "최대 20자리까지 입력 가능합니다.")
+    val name: String,
 
-    @NotBlank(message = "이메일을 입력해주세요.")
-    @Size(max = 50, message = "최대 50자리까지 입력 가능합니다.")
-    @Email(message = "올바른 이메일 형식이 아닙니다.")
-    private final String email;
+    @field:NotBlank(message = "이메일을 입력해주세요.")
+    @field:Size(max = 50, message = "최대 50자리까지 입력 가능합니다.")
+    @field:Email(message = "올바른 이메일 형식이 아닙니다.")
+    val email: String,
 
-    @NotBlank(message = "휴대전화번호를 입력해주세요.")
-    @Pattern(regexp = "[0-9]{10,11}", message = "- 을 제외한 숫자 10자리 또는 11자리를 입력해주세요.")
-    private final String telephone;
+    @field:NotBlank(message = "휴대전화번호를 입력해주세요.")
+    @field:Pattern(message = "- 을 제외한 숫자 10자리 또는 11자리를 입력해주세요.", regexp = "[0-9]{10,11}")
+    val telephone: String
+) {
 
-    public UserSignUpRequest getEncryptedPasswordUserSignUp(Encryptor encryptor) {
-        return new UserSignUpRequest(this.id, encryptor.encrypt(this.password),
-                this.name, this.email, this.telephone);
+    fun getEncryptedPasswordUserSignUp(encryptor: Encryptor): UserSignUpRequest {
+        return UserSignUpRequest(id, encryptor.encrypt(password), name, email, telephone)
     }
-
 }
