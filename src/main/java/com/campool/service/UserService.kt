@@ -46,7 +46,6 @@ class UserService(
     fun deleteById(id: String) {
         if (!isValidUser(userMapper.findById(id))) {
             throw NoSuchUserException("해당하는 사용자 정보가 없습니다.")
-
         }
 
         userMapper.deleteById(id)
