@@ -28,9 +28,7 @@ class UserController(
 
     @LoginValidation
     @GetMapping("/my-infos")
-    fun getUserInfo(@LoginUserId id: String): UserInfo? {
-        return userService.getUserInfoById(id)
-    }
+    fun getUserInfo(@LoginUserId id: String): UserInfo? = userService.getUserInfoById(id)
 
     @LoginValidation
     @GetMapping("/users/logout")
