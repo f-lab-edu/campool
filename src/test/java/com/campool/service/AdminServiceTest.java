@@ -8,7 +8,8 @@ import static org.mockito.BDDMockito.given;
 import com.campool.encrypt.Encryptor;
 import com.campool.exception.NoSuchUserException;
 import com.campool.mapper.AdminMapper;
-import com.campool.model.AdminSignUp;
+import com.campool.model.AdminInfo;
+import com.campool.model.AdminSignUpRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,13 +33,21 @@ class AdminServiceTest {
     @Mock
     Encryptor encryptor;
 
-    AdminSignUp adminSignUp;
+    AdminSignUpRequest adminSignUpRequest;
+
+    AdminInfo adminInfo;
 
     @BeforeEach
     void setUp() {
-        adminSignUp = new AdminSignUp(
+        adminSignUpRequest = new AdminSignUpRequest(
                 "adminId",
                 "adminPassword",
+                "adminName",
+                "admin@email.co.kr",
+                "01012341234");
+
+        adminInfo = new AdminInfo(
+                "adminId",
                 "adminName",
                 "admin@email.co.kr",
                 "01012341234");
@@ -47,13 +56,13 @@ class AdminServiceTest {
     @DisplayName("중복된 ID의 관리자 추가 요청은 중복 예외를 발생")
     @Test
     void addDuplicateAdminIdThrowsException() {
-        AdminSignUp duplicateAdmin = new AdminSignUp(
+        AdminSignUpRequest duplicateAdmin = new AdminSignUpRequest(
                 "adminId",
                 "adminPassword",
                 "adminName",
                 "admin@email.co.kr",
                 "01012341234");
-        given(adminMapper.findById(adminSignUp.getId())).willReturn(adminSignUp);
+        given(adminMapper.findById(adminSignUpRequest.getId())).willReturn(adminInfo);
 
         Exception exception = assertThrows(DuplicateKeyException.class,
                 () -> adminService.add(duplicateAdmin));
@@ -67,9 +76,9 @@ class AdminServiceTest {
         String id = "adminId";
         String password = "adminPassword";
 
-        given(encryptor.encrypt(adminSignUp.getPassword())).willReturn(ENCRYPTED_PASSWORD);
-        given(adminMapper.findByIdAndPassword(adminSignUp.getId(),
-                encryptor.encrypt(adminSignUp.getPassword()))).willReturn(adminSignUp);
+        given(encryptor.encrypt(adminSignUpRequest.getPassword())).willReturn(ENCRYPTED_PASSWORD);
+        given(adminMapper.findByIdAndPassword(adminSignUpRequest.getId(),
+                encryptor.encrypt(adminSignUpRequest.getPassword()))).willReturn(adminInfo);
 
         assertNotNull(adminService.getByIdAndPw(id, password));
     }
