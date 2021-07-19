@@ -1,46 +1,29 @@
-package com.campool.service;
+package com.campool.service
 
-import com.campool.encrypt.Encryptor;
-import com.campool.exception.NoSuchUserException;
-import com.campool.mapper.AdminMapper;
-import com.campool.model.AdminSignUp;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.stereotype.Service;
+import com.campool.mapper.AdminMapper
+import com.campool.encrypt.Encryptor
+import com.campool.model.AdminSignUpRequest
+import com.campool.exception.NoSuchUserException
+import com.campool.model.AdminInfo
+import org.springframework.dao.DuplicateKeyException
+import org.springframework.stereotype.Service
 
-@RequiredArgsConstructor
 @Service
-public class AdminService {
-
-    @NonNull
-    private final AdminMapper adminMapper;
-
-    @NonNull
-    private final Encryptor encryptor;
-
-    public void add(AdminSignUp adminSignUp) {
-        if (isDuplicate(adminSignUp.getId())) {
-            throw new DuplicateKeyException("중복된 아이디가 존재합니다.");
+class AdminService(
+    private val adminMapper: AdminMapper,
+    private val encryptor: Encryptor
+) {
+    fun add(adminSignUpRequest: AdminSignUpRequest) {
+        if (isDuplicate(adminSignUpRequest.id)) {
+            throw DuplicateKeyException("중복된 아이디가 존재합니다.")
         }
-        adminMapper.insertAdmin(adminSignUp.getEncryptedPasswordUserSignUp(encryptor));
+
+        adminMapper.insertAdmin(adminSignUpRequest.getEncryptedPasswordUserSignUp(encryptor))
     }
 
-    public boolean isDuplicate(String id) {
-        return adminMapper.findById(id) != null;
-    }
+    fun isDuplicate(id: String): Boolean = adminMapper.findById(id) != null
 
-    public AdminSignUp getByIdAndPw(String id, String password) {
-        AdminSignUp adminSignUp = adminMapper.findByIdAndPassword(id, encryptor.encrypt(password));
-        if (isValidAdmin(adminSignUp)) {
-            return adminSignUp;
-        } else {
-            throw new NoSuchUserException("해당하는 관리자 정보가 없습니다.");
-        }
-    }
-
-    private boolean isValidAdmin(AdminSignUp adminSignUp) {
-        return adminSignUp != null;
-    }
-
+    fun getByIdAndPw(id: String, password: String): AdminInfo =
+        adminMapper.findByIdAndPassword(id, encryptor.encrypt(password))
+            ?: throw NoSuchUserException("해당하는 관리자 정보가 없습니다.")
 }

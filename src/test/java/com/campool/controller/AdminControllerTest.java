@@ -1,6 +1,6 @@
 package com.campool.controller;
 
-import com.campool.model.AdminSignUp;
+import com.campool.model.AdminSignUpRequest;
 import com.campool.service.AdminService;
 import com.campool.service.AuthService;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,18 +27,18 @@ class AdminControllerTest {
     @MockBean
     AuthService authService;
 
-    AdminSignUp correctAdmin, incorrectAdmin;
+    AdminSignUpRequest correctAdmin, incorrectAdmin;
 
     @BeforeEach
     void setUp() {
-        correctAdmin = new AdminSignUp(
+        correctAdmin = new AdminSignUpRequest(
                 "adminId",
                 "adminPassword",
                 "adminName",
                 "admin@email.co.kr",
                 "01012341234");
 
-        incorrectAdmin = new AdminSignUp(
+        incorrectAdmin = new AdminSignUpRequest(
                 "adminIdOver12Size",
                 "adminPasswordOver20Size",
                 "adminNameOver20Size@@@@",
