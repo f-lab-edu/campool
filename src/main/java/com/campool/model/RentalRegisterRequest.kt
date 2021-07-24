@@ -1,41 +1,25 @@
-package com.campool.model;
+package com.campool.model
 
-import java.time.LocalDate;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import java.time.LocalDate
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.Size
 
-@Getter
-@RequiredArgsConstructor
-@ToString
-public class RentalRegisterRequest {
-
+class RentalRegisterRequest(
     @NotBlank(message = "제목을 입력해주세요.")
     @Size(max = 255, message = "최대 255자리까지 입력 가능합니다.")
-    private final String title;
+    val title: String,
 
     @NotBlank(message = "설명을 입력해주세요.")
     @Size(max = 255, message = "최대 255자리까지 입력 가능합니다.")
-    private final String description;
+    val description: String,
 
-    @NonNull
-    private final LocalDate startDate;
+    val startDate: LocalDate,
 
-    @NonNull
-    private final LocalDate endDate;
+    val endDate: LocalDate,
 
-    @NonNull
-    @Min(0)
-    private final int cost;
+    val cost: Int,
 
-    @NonNull
-    private final double longitude;
+    val longitude: Double,
 
-    @NonNull
-    private final double latitude;
-
-}
+    val latitude: Double
+)

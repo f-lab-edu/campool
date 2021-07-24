@@ -1,80 +1,63 @@
-package com.campool.controller;
+package com.campool.controller
 
-import com.campool.annotation.LoginUserId;
-import com.campool.annotation.LoginValidation;
-import com.campool.model.BookingInfo;
-import com.campool.model.CampingGear;
-import com.campool.model.Rental;
-import com.campool.model.RentalCompleteRequest;
-import com.campool.model.RentalDetailsResponse;
-import com.campool.model.RentalInfo;
-import com.campool.model.RentalRegisterRequest;
-import com.campool.model.RentalsRequestByLocation;
-import com.campool.service.BookingService;
-import com.campool.service.RentalService;
-import java.util.List;
-import javax.validation.Valid;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.campool.service.RentalService
+import com.campool.service.BookingService
+import com.campool.annotation.LoginValidation
+import javax.validation.Valid
+import com.campool.model.RentalRegisterRequest
+import com.campool.model.CampingGear
+import com.campool.annotation.LoginUserId
+import com.campool.model.RentalsRequestByLocation
+import com.campool.model.Rental
+import com.campool.model.RentalDetailsResponse
+import org.springframework.transaction.annotation.Transactional
+import com.campool.model.RentalCompleteRequest
+import org.springframework.web.bind.annotation.*
 
-@RequiredArgsConstructor
 @RestController
-public class RentalController {
-
-    @NonNull
-    private final RentalService rentalService;
-
-    @NonNull
-    private final BookingService bookingService;
-
+class RentalController(
+    private val rentalService: RentalService,
+    private val bookingService: BookingService
+) {
     @LoginValidation
     @PostMapping("/rentals")
-    public void registerRental(@Valid RentalRegisterRequest rentalRegisterRequest,
-            @RequestBody List<CampingGear> gears, @LoginUserId String id) {
-        rentalService.register(id, rentalRegisterRequest, gears);
+    fun registerRental(
+        @Valid request: RentalRegisterRequest,
+        @RequestBody gears: List<CampingGear>, @LoginUserId id: String
+    ) {
+        rentalService.register(id, request, gears)
     }
 
     @LoginValidation
     @GetMapping("/rentals")
-    public List<Rental> getRentalsByLocation(
-            @Valid RentalsRequestByLocation rentalsRequestByLocation) {
-        return rentalService.getRentalsByLocation(rentalsRequestByLocation);
-    }
+    fun getRentalsByLocation(@Valid request: RentalsRequestByLocation): List<Rental> =
+        rentalService.getRentalsByLocation(request)
 
     @LoginValidation
     @GetMapping("/rentals/{id}")
-    public RentalDetailsResponse getRentalInfoById(@PathVariable long id) {
-        RentalInfo rentalInfo = rentalService.getRentalById(id);
-        List<CampingGear> gears = rentalService.getGearsByRentalId(id);
-        return new RentalDetailsResponse(rentalInfo, gears);
+    fun getRentalInfoById(@PathVariable id: Long): RentalDetailsResponse {
+        val rentalInfo = rentalService.getRentalById(id)
+        val gears = rentalService.getGearsByRentalId(id)
+        return RentalDetailsResponse(rentalInfo, gears)
     }
 
     @LoginValidation
     @PatchMapping("/rentals/{rentalId}/rent")
-    public void rentCampingGears(@PathVariable long rentalId, @LoginUserId String userId) {
-        rentalService.updateStatusToRented(rentalId, userId);
+    fun rentCampingGears(@PathVariable rentalId: Long, @LoginUserId userId: String) {
+        rentalService.updateStatusToRented(rentalId, userId)
     }
 
     @LoginValidation
     @PostMapping("/rentals/complete")
     @Transactional
-    public void completeRental(@Valid RentalCompleteRequest request, @LoginUserId String userId) {
-        BookingInfo bookingInfo = bookingService.getBookingInfoById(request.getBookingId());
-        rentalService.completeRental(request.getRentalId(), bookingInfo, userId);
+    fun completeRental(@Valid request: RentalCompleteRequest, @LoginUserId userId: String) {
+        val bookingInfo = bookingService.getBookingInfoById(request.bookingId)
+        rentalService.completeRental(request.rentalId, bookingInfo, userId)
     }
 
     @LoginValidation
     @DeleteMapping("/rentals/{rentalId}")
-    public void deleteRental(@PathVariable long rentalId, @LoginUserId String userId) {
-        rentalService.deleteRental(rentalId, userId);
+    fun deleteRental(@PathVariable rentalId: Long, @LoginUserId userId: String) {
+        rentalService.deleteRental(rentalId, userId)
     }
-
 }

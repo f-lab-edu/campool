@@ -1,29 +1,14 @@
-package com.campool.model;
+package com.campool.model
 
-import java.time.LocalDate;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import java.time.LocalDate
 
-@Getter
-@RequiredArgsConstructor
-@ToString
-public class Rental {
-
-    private final int rentalId;
-
-    private final String title;
-
-    private final String userId;
-
-    private final LocalDate startDate;
-
-    private final LocalDate endDate;
-
-    private final int cost;
-
-    private final double longitude;
-
-    private final double latitude;
-
-}
+data class Rental(
+    val rentalId: Int,
+    val title: String,
+    val userId: String,
+    val startDate: LocalDate,
+    val endDate: LocalDate,
+    val cost: Int,
+    val longitude: Double,
+    val latitude: Double
+)

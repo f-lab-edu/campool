@@ -1,19 +1,6 @@
-package com.campool.model;
+package com.campool.model
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-
-@Getter
-@RequiredArgsConstructor
-@ToString
-public class RentalCompleteRequest {
-
-    @NonNull
-    private final long rentalId;
-
-    @NonNull
-    private final long bookingId;
-
-}
+class RentalCompleteRequest(
+    val rentalId: Long,
+    val bookingId: Long
+)

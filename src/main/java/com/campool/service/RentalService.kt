@@ -1,114 +1,82 @@
-package com.campool.service;
+package com.campool.service
 
-import com.campool.enumeration.RentalStatus;
-import com.campool.mapper.RentalMapper;
-import com.campool.model.BookingInfo;
-import com.campool.model.CampingGear;
-import com.campool.model.Rental;
-import com.campool.model.RentalInfo;
-import com.campool.model.RentalRegisterRequest;
-import com.campool.model.RentalsRequestByLocation;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.NoSuchElementException;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional
+import com.campool.mapper.RentalMapper
+import com.campool.model.RentalRegisterRequest
+import com.campool.model.CampingGear
+import com.campool.enumeration.RentalStatus
+import com.campool.model.RentalInfo
+import java.util.NoSuchElementException
+import com.campool.model.RentalsRequestByLocation
+import com.campool.model.Rental
+import java.math.BigDecimal
+import com.campool.model.BookingInfo
+import org.springframework.stereotype.Service
 
 @Transactional(readOnly = true)
-@RequiredArgsConstructor
 @Service
-public class RentalService {
-
-    private static final BigDecimal LONGITUDE_PER_METER = new BigDecimal("0.0000113182");
-    private static final BigDecimal LATITUDE_PER_METER = new BigDecimal("0.0000089426");
-
-    @NonNull
-    private final RentalMapper rentalMapper;
+class RentalService(
+    private val rentalMapper: RentalMapper
+) {
+    companion object {
+        private val LONGITUDE_PER_METER = BigDecimal("0.0000113182")
+        private val LATITUDE_PER_METER = BigDecimal("0.0000089426")
+    }
 
     @Transactional
-    public void register(String userId, RentalRegisterRequest rentalRegisterRequest,
-            List<CampingGear> gears) {
-        rentalMapper.insertRental(userId, rentalRegisterRequest, RentalStatus.TRADEABLE);
-        rentalMapper.insertGears(gears);
+    fun register(userId: String, rentalRegisterRequest: RentalRegisterRequest, gears: List<CampingGear>) {
+        rentalMapper.insertRental(userId, rentalRegisterRequest, RentalStatus.TRADEABLE)
+        rentalMapper.insertGears(gears)
     }
 
-    public RentalInfo getRentalById(long id) {
-        RentalInfo rentalInfo = rentalMapper.findRentalInfoById(id);
-        if (rentalInfo == null) {
-            throw new NoSuchElementException("해당하는 렌트 정보가 없습니다.");
-        }
-        return rentalInfo;
-    }
+    fun getRentalById(id: Long): RentalInfo =
+        rentalMapper.findRentalInfoById(id) ?: throw NoSuchElementException("해당하는 렌트 정보가 없습니다.")
 
-    public List<CampingGear> getGearsByRentalId(long rentalId) {
-        return rentalMapper.findGearsByRentalId(rentalId);
-    }
+    fun getGearsByRentalId(rentalId: Long): List<CampingGear> = rentalMapper.findGearsByRentalId(rentalId)
 
-    public List<Rental> getRentalsByLocation(RentalsRequestByLocation rentalsRequestByLocation) {
-        int meters = rentalsRequestByLocation.getDistanceInMeters();
-        double longitude = rentalsRequestByLocation.getLongitude();
-        double latitude = rentalsRequestByLocation.getLatitude();
-
-        String polygon = getPolygonString(new BigDecimal(longitude), new BigDecimal(latitude),
-                new BigDecimal(meters));
-
+    fun getRentalsByLocation(rentalsRequestByLocation: RentalsRequestByLocation): List<Rental> {
+        val meters = rentalsRequestByLocation.distanceInMeters
+        val longitude = rentalsRequestByLocation.longitude
+        val latitude = rentalsRequestByLocation.latitude
+        val polygon = getPolygonString(BigDecimal(longitude), BigDecimal(latitude), BigDecimal(meters))
         return rentalMapper
-                .findRentalsByLocation(rentalsRequestByLocation, RentalStatus.TRADEABLE, polygon);
+            .findRentalsByLocation(rentalsRequestByLocation, RentalStatus.TRADEABLE, polygon)
     }
 
-    private String getPolygonString(BigDecimal longitude, BigDecimal latitude, BigDecimal meters) {
-        BigDecimal differenceX = LONGITUDE_PER_METER.multiply(meters);
-        BigDecimal differenceY = LATITUDE_PER_METER.multiply(meters);
-
-        BigDecimal X1 = longitude.subtract(differenceX);
-        BigDecimal X2 = longitude.add(differenceX);
-        BigDecimal Y1 = latitude.subtract(differenceY);
-        BigDecimal Y2 = latitude.add(differenceY);
-
-        return "POLYGON(("
-                + X1 + " " + Y1 + ","
-                + X2 + " " + Y1 + ","
-                + X2 + " " + Y2 + ","
-                + X1 + " " + Y2 + ","
-                + X1 + " " + Y1 + "))";
+    private fun getPolygonString(longitude: BigDecimal, latitude: BigDecimal, meters: BigDecimal): String {
+        val differenceX = LONGITUDE_PER_METER.multiply(meters)
+        val differenceY = LATITUDE_PER_METER.multiply(meters)
+        val x1 = longitude.subtract(differenceX)
+        val x2 = longitude.add(differenceX)
+        val y1 = latitude.subtract(differenceY)
+        val y2 = latitude.add(differenceY)
+        return ("POLYGON(($x1 $y1, $x2 $y1, $x2 $y2, $x1 $y2, $x1 $y1))")
     }
 
-    public void updateStatusToRented(long rentalId, String userId) {
-        updateNewStatus(RentalStatus.TRADING, RentalStatus.RENTED, rentalId, userId);
+    fun updateStatusToRented(rentalId: Long, userId: String) {
+        updateNewStatus(RentalStatus.TRADING, RentalStatus.RENTED, rentalId, userId)
     }
 
-    public void completeRental(long rentalId, BookingInfo bookingInfo, String userId) {
-        if (rentalId != bookingInfo.getRentalId() || !userId.equals(bookingInfo.getUserId())) {
-            throw new IllegalArgumentException("유효하지 않는 요청입니다.");
-        }
-
-        updateNewStatus(RentalStatus.RENTED, RentalStatus.TRADE_COMPLETED, rentalId, userId);
+    fun completeRental(rentalId: Long, bookingInfo: BookingInfo, userId: String) {
+        require(!(rentalId != bookingInfo.rentalId || userId != bookingInfo.userId)) { "유효하지 않는 요청입니다." }
+        updateNewStatus(RentalStatus.RENTED, RentalStatus.TRADE_COMPLETED, rentalId, userId)
     }
 
     @Transactional
-    public void updateNewStatus(RentalStatus currentStatus, RentalStatus newStatus, long rentalId,
-            String userId) {
-        if (!isValidRentalStatus(getRentalById(rentalId), currentStatus, userId)) {
-            throw new IllegalStateException(currentStatus.getMessage() + "인 상태가 아닙니다.");
-        }
-
-        rentalMapper.updateStatusById(rentalId, newStatus);
+    fun updateNewStatus(currentStatus: RentalStatus, newStatus: RentalStatus, rentalId: Long, userId: String) {
+        check(isValidRentalStatus(getRentalById(rentalId), currentStatus, userId))
+        { currentStatus.message + "인 상태가 아닙니다." }
+        rentalMapper.updateStatusById(rentalId, newStatus)
     }
 
-    private boolean isValidRentalStatus(RentalInfo rentalInfo, RentalStatus status, String userId) {
-        return rentalInfo.getStatus() == status && rentalInfo.getUserId().equals(userId);
-    }
+    private fun isValidRentalStatus(rentalInfo: RentalInfo, status: RentalStatus, userId: String): Boolean =
+        rentalInfo.status == status && rentalInfo.userId == userId
 
     @Transactional
-    public void deleteRental(long rentalId, String userId) {
-        RentalInfo rentalInfo = rentalMapper.findRentalInfoById(rentalId);
-        if (rentalInfo.getStatus() != RentalStatus.TRADEABLE
-                || !rentalInfo.getUserId().equals(userId)) {
-            throw new IllegalStateException("본인이 등록하고 거래 가능 상태일 때만 삭제할 수 있습니다.");
-        }
-        rentalMapper.deleteById(rentalId);
+    fun deleteRental(rentalId: Long, userId: String) {
+        val rentalInfo = rentalMapper.findRentalInfoById(rentalId)!!
+        check(!(rentalInfo.status != RentalStatus.TRADEABLE || rentalInfo.userId != userId))
+        { "본인이 등록하고 거래 가능 상태일 때만 삭제할 수 있습니다." }
+        rentalMapper.deleteById(rentalId)
     }
-
 }

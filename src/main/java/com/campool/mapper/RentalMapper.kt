@@ -1,33 +1,29 @@
-package com.campool.mapper;
+package com.campool.mapper
 
-import com.campool.enumeration.RentalStatus;
-import com.campool.model.CampingGear;
-import com.campool.model.Rental;
-import com.campool.model.RentalInfo;
-import com.campool.model.RentalRegisterRequest;
-import com.campool.model.RentalsRequestByLocation;
-import java.time.LocalDate;
-import java.util.List;
-import org.apache.ibatis.annotations.Mapper;
+import com.campool.model.RentalRegisterRequest
+import com.campool.enumeration.RentalStatus
+import com.campool.model.CampingGear
+import com.campool.model.RentalInfo
+import com.campool.model.RentalsRequestByLocation
+import com.campool.model.Rental
+import org.apache.ibatis.annotations.Mapper
+import java.time.LocalDate
 
 @Mapper
-public interface RentalMapper {
+interface RentalMapper {
+    fun insertRental(userId: String, rental: RentalRegisterRequest, status: RentalStatus)
 
-    void insertRental(String userId, RentalRegisterRequest rental, RentalStatus status);
+    fun insertGears(gears: List<CampingGear>)
 
-    void insertGears(List<CampingGear> gears);
+    fun findRentalInfoById(id: Long): RentalInfo?
 
-    RentalInfo findRentalInfoById(long id);
+    fun findGearsByRentalId(rentalId: Long): List<CampingGear>
 
-    List<CampingGear> findGearsByRentalId(long rentalId);
+    fun findRentalsByLocation(rental: RentalsRequestByLocation, status: RentalStatus, polygon: String): List<Rental>
 
-    List<Rental> findRentalsByLocation(RentalsRequestByLocation rental, RentalStatus status,
-            String polygon);
+    fun findCostByIdAndDate(id: Long, startDate: LocalDate, endDate: LocalDate): Int?
 
-    Integer findCostByIdAndDate(long id, LocalDate startDate, LocalDate endDate);
+    fun updateStatusById(id: Long, status: RentalStatus)
 
-    void updateStatusById(long id, RentalStatus status);
-
-    void deleteById(long id);
-
+    fun deleteById(id: Long)
 }
