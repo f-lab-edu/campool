@@ -74,7 +74,7 @@ class RentalService(
 
     @Transactional
     fun deleteRental(rentalId: Long, userId: String) {
-        val rentalInfo = rentalMapper.findRentalInfoById(rentalId)!!
+        val rentalInfo = getRentalById(rentalId)
         check(!(rentalInfo.status != RentalStatus.TRADEABLE || rentalInfo.userId != userId))
         { "본인이 등록하고 거래 가능 상태일 때만 삭제할 수 있습니다." }
         rentalMapper.deleteById(rentalId)
